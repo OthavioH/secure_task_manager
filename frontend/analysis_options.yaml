@@ -1,1 +1,13 @@
 include: package:flutter_lints/flutter.yaml
+
+formatter:
+  trailing_commas: preserve
+
+analyzer:
+  plugins:
+    - custom_lint
+
+linter:
+  rules:
+    - avoid_print: true
+    - prefer_const_constructors: true
