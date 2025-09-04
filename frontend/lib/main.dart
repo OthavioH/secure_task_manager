@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:simple_rpg_system/routes/app_router.dart';
 import 'package:simple_rpg_system/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(
     ProviderScope(
       child: const MainApp(),
