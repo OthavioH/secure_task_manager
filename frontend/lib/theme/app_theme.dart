@@ -14,6 +14,12 @@ class AppTheme {
       scaffoldBackgroundColor: colorScheme.surface,
       appBarTheme: AppBarThemeData(
         actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding)
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        constraints: BoxConstraints(
+          maxWidth: 80,
+          minWidth: 50,
+        ),
       )
     );
   }
@@ -29,6 +35,12 @@ class AppTheme {
       appBarTheme: AppBarThemeData(
         actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding),
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        constraints: BoxConstraints(
+          maxWidth: 80,
+          minWidth: 50,
+        ),
+      )
     );
   }
 }

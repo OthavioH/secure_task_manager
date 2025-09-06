@@ -25,8 +25,9 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () {
-              context.push('/settings');
+            onPressed: () async {
+              await context.push('/settings');
+              ref.invalidate(userTasksControllerProvider);
             },
           ),
         ],
