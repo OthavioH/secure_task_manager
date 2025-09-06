@@ -30,9 +30,3 @@ jobs:
       - name: Build web
         run: flutter build web
         working-directory: frontend
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: flutter-web-build
-          path: frontend/build/web
