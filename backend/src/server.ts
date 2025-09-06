@@ -3,6 +3,7 @@ import fastifyCors from "@fastify/cors";
 import dotenv from "dotenv";
 import AppDataSource from "./config/db_data_source";
 import routes from "./routes";
+import { envConfig } from "./config/environment_config";
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ const app = fastify({
 
 AppDataSource.initialize().then(() => {
   app.register(fastifyCors, {
-    origin: "*",
+    origin: envConfig.frontendAddress,
   });
 
   app.register(routes);
