@@ -55,5 +55,6 @@ class AuthService {
 
   void logout() {
     _authTokensRepository.deleteToken();
+    _userRepository.deleteLoggedUser();
   }
 }

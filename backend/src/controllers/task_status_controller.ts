@@ -22,9 +22,11 @@ export class TaskStatusController {
     static async update(req: FastifyRequest<{ Params: { id: string }; Body: { name: string } }>, reply: FastifyReply) {
         const { id } = req.params;
         const { name } = req.body;
+
         const repo = AppDataSource.getRepository(TaskStatus);
         const status = await repo.findOne({ where: { id } });
         if (!status) return reply.code(404).send({ error: "Status não encontrado" });
+        
         status.name = name;
         await repo.save(status);
         return reply.send(status);

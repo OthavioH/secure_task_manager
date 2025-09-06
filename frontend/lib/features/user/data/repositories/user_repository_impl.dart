@@ -71,4 +71,9 @@ class UserRepositoryImpl extends UserRepository {
 
     return _sharedPreferences.setString(_loggedUserKey, userStringJSON);
   }
+
+  @override
+  Future<void> deleteLoggedUser() async {
+    await _sharedPreferences.remove(_loggedUserKey);
+  }
 }

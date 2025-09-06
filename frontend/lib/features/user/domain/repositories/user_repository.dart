@@ -10,4 +10,6 @@ abstract class UserRepository {
   Future<UserModel?> getLoggedUser();
 
   Future<bool> saveLoggedUser(UserModel user);
+
+  Future<void> deleteLoggedUser();
 }
