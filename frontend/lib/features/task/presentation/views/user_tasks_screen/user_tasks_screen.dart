@@ -3,11 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:simple_rpg_system/features/auth/routes/auth_routes.dart';
+import 'package:simple_rpg_system/features/task/domain/models/task_model.dart';
+import 'package:simple_rpg_system/features/task/presentation/views/create_task_modal/create_task_modal.dart';
 import 'package:simple_rpg_system/features/task/presentation/views/user_tasks_screen/controllers/user_tasks_controller.dart';
-import 'package:simple_rpg_system/shared/controllers/auth_guard_controller.dart';
-import 'package:simple_rpg_system/shared/controllers/auth_guard_state.dart';
-import 'package:simple_rpg_system/features/task/presentation/widgets/session_expired_snack_bar.dart';
+import 'package:simple_rpg_system/features/task/presentation/widgets/task_item.dart';
 
 class UserTasksScreen extends ConsumerStatefulWidget {
   const UserTasksScreen({super.key});
@@ -19,24 +18,49 @@ class UserTasksScreen extends ConsumerStatefulWidget {
 class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      authGuardControllerProvider,
-      (_, state) {
-        if (state.valueOrNull is AuthGuardNotAuthorizedState) {
-          context.go(AuthRoutes.loginRoute);
-          showSessionExpiredSnackBar(context);
-        }
-      },
-    );
-
     final userTaskState = ref.watch(userTasksControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Tasks'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              context.push('/settings');
+            },
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton.small(
+            heroTag: 'refresh',
+            onPressed: () async {
+              final _ = ref.refresh(userTasksControllerProvider);
+            },
+            child: Icon(Icons.refresh),
+          ),
+          const SizedBox(height: 16),
+          FloatingActionButton(
+            heroTag: 'add',
+            onPressed: () async {
+              final createdTask = await showModalBottomSheet(
+                context: context,
+                builder: (context) => BottomSheet(
+                  enableDrag: false,
+                  onClosing: () {},
+                  builder: (context) => CreateTaskModal(),
+                ),
+              );
+              
+              if(createdTask == null || createdTask is! TaskModel) return;
+              
+              ref.read(userTasksControllerProvider.notifier).addTask(createdTask);
+            },
+            child: Icon(Icons.add),
+          ),
+        ],
       ),
       body: userTaskState.when(
         loading: () => Center(child: CircularProgressIndicator()),
@@ -53,10 +77,19 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
             );
           }
           return ListView.separated(
-            itemCount: 10,
+            itemCount: data.length,
             separatorBuilder: (context, index) => const SizedBox(height: 16),
             itemBuilder: (context, index) {
-              return ListTile();
+              final task = data[index];
+              return TaskItem(
+                task: task,
+                onDelete: (taskId) {
+                  ref.read(userTasksControllerProvider.notifier).deleteTask(taskId);
+                },
+                onUpdate: (updatedTask) {
+                  ref.read(userTasksControllerProvider.notifier).updateTask(updatedTask);
+                },
+              );
             },
           );
         },

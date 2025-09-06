@@ -41,7 +41,7 @@ class RemoteAuthDataSource {
         "/auth/refresh",
         options: Options(
           headers: {
-            'Authorizaztion': 'Bearer $refreshToken'
+            'Authorization': 'Bearer $refreshToken'
           },
         )
       );

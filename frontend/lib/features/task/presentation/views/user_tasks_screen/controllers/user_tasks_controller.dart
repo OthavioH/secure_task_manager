@@ -9,8 +9,39 @@ final userTasksControllerProvider = AutoDisposeAsyncNotifierProvider<UserTasksCo
 
 class UserTasksController extends AutoDisposeAsyncNotifier<List<TaskModel>> {
   @override
-  FutureOr<List<TaskModel>> build() {
+  FutureOr<List<TaskModel>> build() async {
     final taskService = ref.watch(taskServiceProvider);
-    return taskService.getTasksForCurrentUser();
+    return await taskService.getTasksForCurrentUser();
+  }
+
+  void addTask(TaskModel task) {
+    state = AsyncData([...state.value ?? [], task]);
+  }
+
+  void updateTask(TaskModel updatedTask) {
+    final currentTasks = state.value ?? [];
+    final taskIndex = currentTasks.indexWhere((task) => task.id == updatedTask.id);
+    if (taskIndex != -1) {
+      currentTasks[taskIndex] = updatedTask;
+      state = AsyncData([...currentTasks]);
+    }
+  }
+
+  void deleteTask(String taskId) async {
+    final originalTask = state.value?.firstWhere((task) => task.id == taskId);
+    if (originalTask == null) return;
+
+    final currentTasks = state.value ?? [];
+    currentTasks.remove(originalTask);
+
+    state = AsyncData(currentTasks);
+
+    final taskService = ref.watch(taskServiceProvider);
+
+    try {
+      await taskService.deleteTask(taskId);
+    } catch (e) {
+      state = AsyncData([...currentTasks, originalTask]);
+    }
   }
 }

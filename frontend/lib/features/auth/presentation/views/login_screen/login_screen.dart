@@ -6,8 +6,6 @@ import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/
 import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/controller/login_state.dart';
 import 'package:simple_rpg_system/features/user/routes/user_routes.dart';
 import 'package:simple_rpg_system/routes/app_router.dart';
-import 'package:simple_rpg_system/shared/controllers/auth_guard_controller.dart';
-import 'package:simple_rpg_system/shared/controllers/auth_guard_state.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -56,15 +54,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      authGuardControllerProvider,
-      (_, state) {
-        if (state.valueOrNull is AuthGuardAuthorizedState) {
-          context.go(AppRouter.homeRoute);
-        }
-      },
-    );
-
     ref.listen(
       loginControllerProvider,
       (_, state) {

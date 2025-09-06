@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:simple_rpg_system/theme/progress_indicator_theme.dart';
+import 'package:simple_rpg_system/core/utils/size_utils.dart';
 
 class AppTheme {
   AppTheme._();
 
   static ThemeData get lightTheme {
-    return ThemeData(
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: Colors.blue,
       brightness: Brightness.light,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blue,
-        brightness: Brightness.light,
-      ),
-      progressIndicatorTheme: AppProgressIndicatorTheme.lightTheme,
+    );
+    return ThemeData.light().copyWith(
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.surface,
+      appBarTheme: AppBarThemeData(
+        actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding)
+      )
     );
   }
 
   static ThemeData get darkTheme {
-    return ThemeData(
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: Colors.blue,
       brightness: Brightness.dark,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blue,
-        brightness: Brightness.dark,
+    );
+    return ThemeData.dark().copyWith(
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.surface,
+      appBarTheme: AppBarThemeData(
+        actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding),
       ),
-      progressIndicatorTheme: AppProgressIndicatorTheme.darkTheme,
     );
   }
 }

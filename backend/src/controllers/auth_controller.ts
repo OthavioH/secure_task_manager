@@ -53,6 +53,7 @@ export class AuthController {
             const { authorization } = req.headers;
 
             if (authorization == null) {
+                console.log("No authorization header");
                 return reply.status(401).send({
                     error: "Refresh token is not valid"
                 });
@@ -79,8 +80,15 @@ export class AuthController {
                 tokens: tokens,
             });
         } catch (error) {
-            return reply.status(401).send({
-                error: "Refresh token is not valid"
+            console.error("Error refreshing token:", error);
+            if (error instanceof jwt.JsonWebTokenError) {
+
+                return reply.status(401).send({
+                    error: "Refresh token is not valid"
+                });
+            }
+            return reply.status(500).send({
+                error: error,
             });
         }
     }

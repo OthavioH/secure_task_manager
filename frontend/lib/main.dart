@@ -14,8 +14,6 @@ void main() async {
   );
 }
 
-final navigatorKey = GlobalKey<NavigatorState>();
-
 class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
@@ -24,7 +22,7 @@ class MainApp extends ConsumerWidget {
     final initializerValue = ref.watch(providersInitializedProvider);
     return initializerValue.when(
       data: (data) => MaterialApp.router(
-        key: navigatorKey,
+        debugShowCheckedModeBanner: false,
         routerConfig: AppRouter.router,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
@@ -36,8 +34,9 @@ class MainApp extends ConsumerWidget {
         ),
       ),
       loading: () => MaterialApp(
-        theme: ThemeData.light(),
-        darkTheme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
         home: Center(
           child: CircularProgressIndicator(),
