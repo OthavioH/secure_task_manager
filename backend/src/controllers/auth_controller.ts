@@ -9,20 +9,21 @@ import JWTPayload from "../models/jwt_payload";
 import UserTokens from "../models/user_tokens";
 
 export class AuthController {
-    private static userRepository = AppDataSource.getRepository(User);
 
     static async login(req: FastifyRequest<{ Body: { username: string, password: string } }>, reply: FastifyReply) {
         const { username, password } = req.body;
+        
+        const userRepository = AppDataSource.getRepository(User);
 
         const hashedPassword = crypto
             .createHash("md5")
             .update(password)
             .digest("hex");
 
-        const user = await this.userRepository.findOne({
+        const user = await userRepository.findOne({
             where: {
                 username,
-            }
+            },
         });
 
         if (!user) {
@@ -33,12 +34,18 @@ export class AuthController {
             return reply.status(401).send({ error: "Usuário ou senha inválidos" });
         }
 
-        const tokens = this.generateTokens({
+        const tokens = AuthController.generateTokens({
             userId: user.id,
             username: user.username,
         });
 
-        return reply.status(200).send(tokens);
+        return reply.status(200).send({
+            user: {
+                id: user.id,
+                username: user.username,
+            },
+            tokens: tokens,
+        });
     }
 
     static async refreshToken(req: FastifyRequest, reply: FastifyReply) {
@@ -51,18 +58,26 @@ export class AuthController {
                 });
             }
 
-            const payload = jwt.verify(authorization, envConfig.jwtRefreshSecret) as JWTPayload;
+            const refreshToken = authorization.replace("Bearer ", "");
 
+            const payload = jwt.verify(refreshToken, envConfig.jwtRefreshSecret) as JWTPayload;
+
+            const userRepository = AppDataSource.getRepository(User);
             
-            const user = await this.userRepository.findOne({ where: { id: payload.userId } });
+            const user = await userRepository.findOne({ where: { id: payload.userId } });
             
             if (!user) {
                 return reply.status(404).send({ error: "Usuário não encontrado" });
             }
 
-            const tokens = this.generateTokens(payload);
+            const tokens = AuthController.generateTokens({
+                userId: user.id,
+                username: user.username,
+            });
 
-            return reply.status(200).send(tokens);
+            return reply.status(200).send({
+                tokens: tokens,
+            });
         } catch (error) {
             return reply.status(401).send({
                 error: "Refresh token is not valid"
@@ -74,7 +89,7 @@ export class AuthController {
         const accessToken = jwt.sign(
             payload,
             envConfig.jwtSecret,
-            { expiresIn: "15m" }
+            { expiresIn: "15min" }
         );
 
         const refreshToken = jwt.sign(

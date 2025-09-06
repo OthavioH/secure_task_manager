@@ -16,7 +16,7 @@ export class TaskController {
             });
         }
 
-        const tasks = TaskController.taskRepository.find(
+        const tasks = await TaskController.taskRepository.find(
             {
                 where: {
                     user: {
@@ -32,7 +32,7 @@ export class TaskController {
     static async store(req: FastifyRequest<{ Body: { userId: string, title: string, description: string } }>, reply: FastifyReply) {
         const { userId, title, description } = req.body;
 
-        const task = TaskController.taskRepository.create(
+        const task = await TaskController.taskRepository.create(
             {
                 title: title,
                 description: description,

@@ -9,8 +9,8 @@ class LocalAuthDataSource {
 
   final String _authTokenKey = 'auth_token';
 
-  Future<void> saveToken(String token) async {
-    await _sharedPreferences.setString(_authTokenKey, token);
+  Future<void> saveToken(String tokens) async {
+    await _sharedPreferences.setString(_authTokenKey, tokens);
   }
 
   String? getToken() {

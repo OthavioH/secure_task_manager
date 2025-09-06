@@ -10,10 +10,11 @@ export default async function routes(fastify: FastifyInstance) {
   });
 
   fastify.post("/login", AuthController.login);
+  fastify.post("/auth/refresh", AuthController.refreshToken);
 
-  fastify.post("/user", UserController.store);
+  fastify.post("/users", UserController.store);
 
-  fastify.post("/task", { preHandler: [AuthMiddleware.authenticate]}, TaskController.store);
-  fastify.get("/task", { preHandler: [AuthMiddleware.authenticate]}, TaskController.readAll);
-  fastify.patch("/task", { preHandler: [AuthMiddleware.authenticate]}, TaskController.update);
+  fastify.post("/tasks", { preHandler: [AuthMiddleware.authenticate]}, TaskController.store);
+  fastify.get("/tasks", { preHandler: [AuthMiddleware.authenticate]}, TaskController.readAll);
+  fastify.patch("/tasks/:id", { preHandler: [AuthMiddleware.authenticate]}, TaskController.update);
 }

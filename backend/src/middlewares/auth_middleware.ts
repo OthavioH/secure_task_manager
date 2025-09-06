@@ -14,7 +14,12 @@ export default class AuthMiddleware {
                 throw new Error
             }
 
-            jwt.verify(authorization, envConfig.jwtSecret) as JWTPayload;
+            const token = authorization.replace("Bearer ", "");
+
+            console.log(token);
+            console.log(envConfig.jwtSecret);
+
+            jwt.verify(token, envConfig.jwtSecret) as JWTPayload;
         } catch (err) {
             reply.status(401).send({
                 error: err,
