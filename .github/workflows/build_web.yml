@@ -19,20 +19,20 @@ jobs:
           channel: stable
 
       - name: Install dependencies
-          run: flutter pub get
-          working-directory: frontend
+        run: flutter pub get
+        working-directory: frontend
 
       - name: Create .env file from secrets
-          run: |
-            echo 'API_URL="${{ secrets.API_URL }}"' > .env
-          working-directory: frontend
+        run: |
+          echo 'API_URL="${{ secrets.API_URL }}"' > .env
+        working-directory: frontend
 
       - name: Build web
-          run: flutter build web
-          working-directory: frontend
+        run: flutter build web
+        working-directory: frontend
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: flutter-web-build
-            path: frontend/build/web
+          path: frontend/build/web
