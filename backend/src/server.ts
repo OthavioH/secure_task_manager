@@ -23,6 +23,7 @@ const app = fastify({
 AppDataSource.initialize().then(() => {
   app.register(fastifyCors, {
     origin: envConfig.frontendAddress,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   });
 
   app.register(routes);
