@@ -35,7 +35,7 @@ jobs:
         working-directory: frontend
 
       - name: Build web
-        run: flutter build web --base-href ./
+        run: flutter build web --base-href /
         working-directory: frontend
 
       - name: Setup Pages
