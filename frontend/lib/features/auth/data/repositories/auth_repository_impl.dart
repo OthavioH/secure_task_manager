@@ -1,23 +1,77 @@
+import 'dart:developer';
 
-import 'package:simple_rpg_system/features/auth/data/data_sources/remote_auth_data_source.dart';
+import 'package:dio/dio.dart';
 import 'package:simple_rpg_system/features/auth/domain/repositories/auth_repository.dart';
+import 'package:simple_rpg_system/features/auth/exceptions/login_exception.dart';
+import 'package:simple_rpg_system/features/auth/exceptions/refresh_token_exception.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  final RemoteAuthDataSource _remoteAuthDataSource;
+  final Dio _httpClient;
 
   AuthRepositoryImpl({
-    required RemoteAuthDataSource remoteAuthDataSource,
-  }) : _remoteAuthDataSource = remoteAuthDataSource;
+    required Dio httpClient,
+  }) : _httpClient = httpClient;
 
   @override
-  Future<Map<String,dynamic>> login(String username, String password) {
-    return _remoteAuthDataSource.login(username, password);
+  Future<Map<String, dynamic>> login(String username, String password) async {
+    try {
+      final response = await _httpClient.post(
+        "/login",
+        data: {
+          "username": username,
+          "password": password,
+        },
+      );
+
+      return response.data;
+    } on DioException catch (error, st) {
+      log(
+        "DioException while trying to authenticate user",
+        error: error,
+        stackTrace: st,
+      );
+
+      final statusCode = error.response?.statusCode;
+
+      throw LoginException.fromStatusCode(statusCode);
+    } catch (e, st) {
+      log(
+        "Unknown exception while trying to authenticate user",
+        error: e,
+        stackTrace: st,
+      );
+      throw LoginException();
+    }
   }
-  
+
   @override
-  Future<Map<String, dynamic>> refreshToken(String refreshToken) {
-    return _remoteAuthDataSource.refreshTOken(refreshToken);
+  Future<Map<String, dynamic>> refreshToken(String refreshToken) async {
+    try {
+      final response = await _httpClient.post(
+        "/auth/refresh",
+        options: Options(
+          headers: {'Authorization': 'Bearer $refreshToken'},
+        ),
+      );
+
+      return response.data;
+    } on DioException catch (error, st) {
+      log(
+        "DioException while trying to authenticate user",
+        error: error,
+        stackTrace: st,
+      );
+
+      final statusCode = error.response?.statusCode;
+
+      throw RefreshTokenException.fromStatusCode(statusCode);
+    } catch (e, st) {
+      log(
+        "Unknown exception while trying to authenticate user",
+        error: e,
+        stackTrace: st,
+      );
+      throw RefreshTokenException();
+    }
   }
-  
-  
 }

@@ -12,6 +12,18 @@ export class AuthController {
 
     static async login(req: FastifyRequest<{ Body: { username: string, password: string } }>, reply: FastifyReply) {
         const { username, password } = req.body;
+
+        if(!username || !password) {
+            return reply.status(400).send({
+                error: "Username and password are required."
+            });
+        }
+
+        if(username.trim().length === 0 || password.trim().length === 0) {
+            return reply.status(400).send({
+                error: "Username and password are required."
+            });
+        }
         
         const userRepository = AppDataSource.getRepository(User);
 
@@ -27,11 +39,11 @@ export class AuthController {
         });
 
         if (!user) {
-            return reply.status(401).send({ error: "Usuário ou senha inválidos" });
+            return reply.status(401).send({ error: "Username or password is invalid" });
         }
 
         if (user.password != hashedPassword) {
-            return reply.status(401).send({ error: "Usuário ou senha inválidos" });
+            return reply.status(401).send({ error: "Username or password is invalid" });
         }
 
         const tokens = AuthController.generateTokens({
@@ -53,7 +65,6 @@ export class AuthController {
             const { authorization } = req.headers;
 
             if (authorization == null) {
-                console.log("No authorization header");
                 return reply.status(401).send({
                     error: "Refresh token is not valid"
                 });
@@ -68,7 +79,7 @@ export class AuthController {
             const user = await userRepository.findOne({ where: { id: payload.userId } });
             
             if (!user) {
-                return reply.status(404).send({ error: "Usuário não encontrado" });
+                return reply.status(404).send({ error: "User not found" });
             }
 
             const tokens = AuthController.generateTokens({

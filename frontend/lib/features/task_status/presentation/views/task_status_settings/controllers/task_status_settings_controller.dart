@@ -32,16 +32,8 @@ class TaskStatusSettingsController
   }
 
   Future<void> deleteStatus(String id) async {
-    final originalStatus = state.value!.firstWhere((status) => status.id == id);
-
-    try {
-      final updatedList = state.value!;
-      updatedList.removeWhere((status) => status.id == id);
-      state = AsyncData(updatedList);
-
-      await service.deleteStatus(id);
-    } catch (e) {
-      state = AsyncData([...state.value ?? [], originalStatus]);
-    }
+    final updatedList = state.value!;
+    updatedList.removeWhere((status) => status.id == id);
+    state = AsyncData(updatedList);
   }
 }

@@ -103,7 +103,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                     controller: _usernameController,
                     decoration: const InputDecoration(labelText: 'Username'),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.trim().isEmpty) {
                         return 'Please enter your username';
                       }
                       return null;
@@ -115,8 +115,8 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                     decoration: const InputDecoration(labelText: 'Password'),
                     obscureText: true,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter a valid password';
                       }
                       return null;
                     },
@@ -129,8 +129,8 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                     ),
                     obscureText: true,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please confirm your password';
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter a valid password';
                       }
             
                       if (value != _passwordController.text) {

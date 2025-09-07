@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:simple_rpg_system/core/utils/size_utils.dart';
 import 'package:simple_rpg_system/features/auth/routes/auth_routes.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/views/create_task_status/create_task_status_modal.dart';
-import 'package:simple_rpg_system/features/task_status/presentation/views/edit_task_status/edit_task_status_scren.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/views/task_status_settings/controllers/sign_out_controller.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/views/task_status_settings/controllers/sign_out_state.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/views/task_status_settings/controllers/task_status_settings_controller.dart';
+import 'package:simple_rpg_system/features/task_status/presentation/widgets/task_status/task_status_widget.dart';
 
 class TaskStatusSettingsScreen extends ConsumerWidget {
   const TaskStatusSettingsScreen({super.key});
@@ -18,7 +18,7 @@ class TaskStatusSettingsScreen extends ConsumerWidget {
     final controller = ref.watch(taskStatusSettingsControllerProvider.notifier);
 
     ref.listen(signOutControllerProvider, (previous, next) {
-      if(next is SignOutSuccess) {
+      if (next is SignOutSuccess) {
         context.pop();
         context.go(AuthRoutes.loginRoute);
       }
@@ -66,32 +66,18 @@ class TaskStatusSettingsScreen extends ConsumerWidget {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) => Center(child: Text('Erro: $error')),
               data: (statuses) {
+                if (statuses.isEmpty) {
+                  return const Center(
+                    child: Text('No statuses found. Please add a status.'),
+                  );
+                }
                 return Wrap(
                   spacing: 8.0,
                   children: statuses.map((status) {
-                    return GestureDetector(
-                      onTap: () async {
-                        final updatesStatus = await showModalBottomSheet(
-                          context: context,
-                          builder: (context) => BottomSheet(
-                            onClosing: () {},
-                            enableDrag: false,
-                            builder: (context) => EditTaskStatusScreen(
-                              status: status,
-                            ),
-                          ),
-                        );
-
-                        if (updatesStatus == null) return;
-
-                        controller.updateStatus(updatesStatus);
-                      },
-                      child: Chip(
-                        label: Text(status.name),
-                        onDeleted: () {
-                          controller.deleteStatus(status.id);
-                        },
-                      ),
+                    return TaskStatusWidget(
+                      status: status,
+                      onUpdate: controller.updateStatus,
+                      onDelete: controller.deleteStatus,
                     );
                   }).toList(),
                 );

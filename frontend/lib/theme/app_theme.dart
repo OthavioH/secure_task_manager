@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:simple_rpg_system/core/utils/size_utils.dart';
 
@@ -46,6 +44,15 @@ class AppTheme {
         constraints: BoxConstraints(
           maxWidth: 80,
           minWidth: 50,
+        ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: Size.fromHeight(48),
+          padding: EdgeInsets.symmetric(
+            horizontal: SizeUtils.kHorizontalPadding,
+            vertical: SizeUtils.kVerticalPadding
+          ),
         ),
       )
     );

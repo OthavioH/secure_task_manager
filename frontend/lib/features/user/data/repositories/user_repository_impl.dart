@@ -41,11 +41,7 @@ class UserRepositoryImpl extends UserRepository {
       );
 
       final statusCode = error.response?.statusCode;
-      if (statusCode == 409) {
-        throw UserAlreadyExistsException();
-      }
-
-      throw CreateAccountException();
+      throw CreateAccountException.fromStatusCode(statusCode);
     } catch (error, stackTrace) {
       log("Error creating account", error: error, stackTrace: stackTrace);
       throw CreateAccountException();

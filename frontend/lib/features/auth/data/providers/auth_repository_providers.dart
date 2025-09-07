@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_rpg_system/features/auth/data/data_sources/local_auth_data_source.dart';
-import 'package:simple_rpg_system/features/auth/data/data_sources/remote_auth_data_source.dart';
 import 'package:simple_rpg_system/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:simple_rpg_system/features/auth/data/repositories/auth_tokens_repository_impl.dart';
 import 'package:simple_rpg_system/features/auth/domain/repositories/auth_repository.dart';
@@ -20,15 +19,9 @@ final localAuthDataSourceProvider = Provider<LocalAuthDataSource>((ref) {
   );
 });
 
-final remoteAuthDataSourceProvider = Provider<RemoteAuthDataSource>((ref) {
-  return RemoteAuthDataSource(
-    ref.watch(httpClientProvider),
-  );
-});
-
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(
-    remoteAuthDataSource: ref.watch(remoteAuthDataSourceProvider),
+    httpClient: ref.watch(httpClientProvider),
   );
 });
 

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_rpg_system/core/config/environment_config.dart';
-import 'package:simple_rpg_system/features/auth/data/data_sources/remote_auth_data_source.dart';
 import 'package:simple_rpg_system/features/auth/data/interceptors/auth_interceptor.dart';
 import 'package:simple_rpg_system/features/auth/data/providers/auth_repository_providers.dart';
 import 'package:simple_rpg_system/features/auth/data/repositories/auth_repository_impl.dart';
@@ -15,7 +14,7 @@ final authInterceptorProvider = Provider.family<AuthInterceptor, Dio>((
       authTokensRepositoryProvider,
     ),
     authRepository: AuthRepositoryImpl(
-      remoteAuthDataSource: RemoteAuthDataSource(dio),
+      httpClient: dio,
     ),
     dio: dio,
   );

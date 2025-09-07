@@ -8,6 +8,18 @@ export class UserController {
     
     static async store(req: FastifyRequest<{Body: {username: string, password: string}}>, reply: FastifyReply) {
         const  {username, password} = req.body;
+        
+        if(!username || !password) {
+            return reply.status(400).send({
+                error: "Username and password are required."
+            });
+        }
+
+        if(username.trim().length === 0 || password.trim().length === 0) {
+            return reply.status(400).send({
+                error: "Username and password are required."
+            });
+        }
 
         const userRepository = AppDataSource.getRepository(User);
 
@@ -19,7 +31,7 @@ export class UserController {
 
         if(hasUser) {
             return reply.status(409).send({
-                error: "Usuário já existe."
+                error: "User already exists."
             });
         }
 
@@ -28,13 +40,13 @@ export class UserController {
             .update(password)
             .digest("hex");
 
-        const user = await userRepository.create({
+        const user = userRepository.create({
             username,
             password: hashedPassword,
         });
         
         await userRepository.save(user);
 
-        return reply.status(200).send(user);
+        return reply.status(201).send(user);
     }
 }

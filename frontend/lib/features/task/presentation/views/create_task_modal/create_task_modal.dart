@@ -85,8 +85,17 @@ class _CreateTaskModalState extends ConsumerState<CreateTaskModal> {
             const SizedBox(height: 20),
             Builder(
               builder: (context) {
-                if(taskStatusState.isLoading){
+                if (taskStatusState.isLoading) {
                   return const Center(child: CircularProgressIndicator());
+                }
+                if (taskStatusState.valueOrNull == null ||
+                    taskStatusState.value!.isEmpty) {
+                  return Text(
+                    'No statuses available. Please add a status first.',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  );
                 }
                 return DropdownButtonFormField<String>(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -122,7 +131,8 @@ class _CreateTaskModalState extends ConsumerState<CreateTaskModal> {
               onPressed: isLoading
                   ? null
                   : () {
-                      if (_formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate() &&
+                          _selectedStatusId != null) {
                         ref
                             .read(createTaskControllerProvider.notifier)
                             .createTask(
