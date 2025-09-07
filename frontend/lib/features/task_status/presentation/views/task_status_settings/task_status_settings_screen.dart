@@ -101,8 +101,8 @@ class TaskStatusSettingsScreen extends ConsumerWidget {
               height: 32,
             ),
             Center(
-              child: OutlinedButton.icon(
-                label: Text('Sign Out'),
+              child: FilledButton.tonalIcon(
+                label: Text('Logout'),
                 onPressed: () {
                   ref.read(signOutControllerProvider.notifier).signOut();
                 },

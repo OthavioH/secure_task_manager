@@ -82,6 +82,9 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
     final isLoading = ref.watch(createAccountControllerProvider).isLoading;
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Create Account'),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: SizeUtils.kHorizontalPadding,
@@ -91,57 +94,60 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
           autovalidateMode: AutovalidateMode.onUnfocus,
           key: _formKey,
           child: Center(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                TextFormField(
-                  controller: _usernameController,
-                  decoration: const InputDecoration(labelText: 'Username'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your username';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Confirm password',
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 400),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  TextFormField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(labelText: 'Username'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your username';
+                      }
+                      return null;
+                    },
                   ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
-                    }
-
-                    if (value != _passwordController.text) {
-                      return 'Passwords are not equal';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                FilledButton(
-                  onPressed: isLoading ? null : () => onSubmit(),
-                  child: isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('Create account'),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(labelText: 'Password'),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    decoration: const InputDecoration(
+                      labelText: 'Confirm password',
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please confirm your password';
+                      }
+            
+                      if (value != _passwordController.text) {
+                        return 'Passwords are not equal';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  FilledButton(
+                    onPressed: isLoading ? null : () => onSubmit(),
+                    child: isLoading
+                        ? const CircularProgressIndicator()
+                        : const Text('Create account'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

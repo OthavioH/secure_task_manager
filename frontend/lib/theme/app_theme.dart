@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:simple_rpg_system/core/utils/size_utils.dart';
 
@@ -13,7 +15,8 @@ class AppTheme {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colorScheme.surface,
       appBarTheme: AppBarThemeData(
-        actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding)
+        actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding),
+        centerTitle: true,
       ),
       inputDecorationTheme: InputDecorationTheme(
         constraints: BoxConstraints(
@@ -34,6 +37,10 @@ class AppTheme {
       scaffoldBackgroundColor: colorScheme.surface,
       appBarTheme: AppBarThemeData(
         actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding),
+        centerTitle: true,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        constraints: BoxConstraints(minHeight: 100, maxHeight: 400, maxWidth: 600)
       ),
       inputDecorationTheme: InputDecorationTheme(
         constraints: BoxConstraints(
