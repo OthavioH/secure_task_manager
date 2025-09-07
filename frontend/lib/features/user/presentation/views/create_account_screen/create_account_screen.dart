@@ -65,17 +65,19 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    ref.listenManual(createAccountControllerProvider, (previous, next) {
+      if (next is CreateAccountSuccess) {
+        onSuccess();
+      } else if (next is CreateAccountFailure) {
+        onError(next);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ref.listen(
-      createAccountControllerProvider,
-      (_, state) {
-        if (state is CreateAccountSuccess) {
-          return onSuccess();
-        } else if (state is CreateAccountFailure) {
-          return onError(state);
-        }
-      },
-    );
 
     final isLoading = ref.watch(createAccountControllerProvider).isLoading;
 
