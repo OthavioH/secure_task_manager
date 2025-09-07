@@ -8,7 +8,7 @@ import { TaskStatus } from "../entities/task_status";
 dotenv.config();
 
 const AppDataSource = new DataSource({
-  type: "mysql",
+  type: "postgres",
   host: process.env.DB_HOST ?? "",
   username: process.env.DB_USERNAME ?? "",
   password: process.env.DB_PASSWORD ?? "",
