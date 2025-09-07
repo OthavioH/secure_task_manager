@@ -43,7 +43,8 @@ class AppRouter {
       final isLoggedIn = authState is AuthGuardAuthorizedState;
 
       final isGoingToLogin = state.uri.toString() == AuthRoutes.loginRoute;
-      if (!isLoggedIn && !isGoingToLogin) {
+      final isGoingToCreateAccount = state.uri.toString() == UserRoutes.createAccountRoute;
+      if (!isLoggedIn && !isGoingToLogin && !isGoingToCreateAccount) {
         return AuthRoutes.loginRoute;
       }
       if(isLoggedIn && isGoingToLogin) {
