@@ -32,6 +32,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
+  void resetForm() {
+    _formKey.currentState?.reset();
+  }
+
   void onError(LoginFailure error) {
     showDialog(
       context: context,
@@ -133,8 +137,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   TextButton(
-                    onPressed: () {
-                      context.push(UserRoutes.createAccountRoute);
+                    onPressed: () async {
+                      final hasCreatedAccount = await context.push<bool>(UserRoutes.createAccountRoute);
+
+                      if(hasCreatedAccount == true) {
+                        resetForm();
+                      }
                     },
                     child: const Text('Don\'t have an account? Sign up'),
                   ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_rpg_system/core/utils/size_utils.dart';
-import 'package:simple_rpg_system/features/auth/routes/auth_routes.dart';
 import 'package:simple_rpg_system/features/user/presentation/views/create_account_screen/controller/create_account_controller.dart';
 import 'package:simple_rpg_system/features/user/presentation/views/create_account_screen/controller/create_account_state.dart';
 
@@ -53,7 +52,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   }
 
   void onSuccess() {
-    context.go(AuthRoutes.loginRoute);
+    context.pop(true);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
