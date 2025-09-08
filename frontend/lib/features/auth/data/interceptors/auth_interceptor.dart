@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_rpg_system/features/auth/domain/models/user_tokens_model.dart';
@@ -62,10 +64,12 @@ class AuthInterceptor extends Interceptor {
         final response = await _dio.fetch(options);
         return handler.resolve(response);
       } on DioException catch (e) {
+        log("Error retrying request", error: e, stackTrace: e.stackTrace);
         _authTokensRepository.deleteToken();
         navigatorKey.currentContext?.go(AuthRoutes.loginRoute);
         return handler.reject(e);
-      } on RefreshTokenException catch (_) {
+      } on RefreshTokenException catch (error, stackTrace) {
+        log("Refresh token expired", error: error, stackTrace: stackTrace);
         _authTokensRepository.deleteToken();
         navigatorKey.currentContext?.go(AuthRoutes.loginRoute);
         return handler.reject(err);

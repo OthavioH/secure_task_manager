@@ -18,6 +18,37 @@ class UserTasksScreen extends ConsumerStatefulWidget {
 class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      userTasksControllerProvider,
+      (previous, next) {
+        if (next.hasError) {
+          final error = next.error;
+          log(
+            "Error while trying to load user tasks",
+            error: error,
+            stackTrace: next.stackTrace,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "There was an error while trying to load your tasks. Please, try again later.",
+              ),
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+          return;
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "There was an error while trying to load your tasks. Please, try again later.",
+            ),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      },
+    );
+
     final userTaskState = ref.watch(userTasksControllerProvider);
     return Scaffold(
       appBar: AppBar(
@@ -54,10 +85,12 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
                   builder: (context) => CreateTaskModal(),
                 ),
               );
-              
-              if(createdTask == null || createdTask is! TaskModel) return;
-              
-              ref.read(userTasksControllerProvider.notifier).addTask(createdTask);
+
+              if (createdTask == null || createdTask is! TaskModel) return;
+
+              ref
+                  .read(userTasksControllerProvider.notifier)
+                  .addTask(createdTask);
             },
             child: Icon(Icons.add),
           ),
@@ -66,7 +99,6 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
       body: userTaskState.when(
         loading: () => Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) {
-          log("Error getting tasks", error: error, stackTrace: stackTrace);
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -85,10 +117,14 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
               return TaskItem(
                 task: task,
                 onDelete: (taskId) {
-                  ref.read(userTasksControllerProvider.notifier).deleteTask(taskId);
+                  ref
+                      .read(userTasksControllerProvider.notifier)
+                      .deleteTask(taskId);
                 },
                 onUpdate: (updatedTask) {
-                  ref.read(userTasksControllerProvider.notifier).updateTask(updatedTask);
+                  ref
+                      .read(userTasksControllerProvider.notifier)
+                      .updateTask(updatedTask);
                 },
               );
             },

@@ -20,6 +20,9 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  bool hidePassword = true;
+  bool hideConfirmPassword = true;
+
   void onSubmit() {
     if (_formKey.currentState?.validate() ?? false) {
       ref
@@ -78,7 +81,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final isLoading = ref.watch(createAccountControllerProvider).isLoading;
 
     return Scaffold(
@@ -112,11 +114,26 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          hidePassword ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            hidePassword = !hidePassword;
+                          });
+                        },
+                      ),
+                    ),
+                    obscureText: hidePassword,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter a valid password';
+                      }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
                       }
                       return null;
                     },
@@ -124,15 +141,31 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: _confirmPasswordController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Confirm password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          hideConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            hideConfirmPassword = !hideConfirmPassword;
+                          });
+                        },
+                      ),
                     ),
-                    obscureText: true,
+                    obscureText: hideConfirmPassword,
                     validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
+                      if (value == null ||
+                          value.trim().isEmpty ||
+                          value.length < 6) {
                         return 'Please enter a valid password';
                       }
-            
+
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
+
                       if (value != _passwordController.text) {
                         return 'Passwords are not equal';
                       }

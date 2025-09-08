@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_rpg_system/core/utils/size_utils.dart';
-import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/controller/login_controller.dart';
-import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/controller/login_state.dart';
+import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/controllers/login_controller.dart';
+import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/controllers/login_state.dart';
 import 'package:simple_rpg_system/features/user/routes/user_routes.dart';
 import 'package:simple_rpg_system/routes/app_router.dart';
 
@@ -18,6 +18,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  bool hidePassword = true;
 
   void onSubmit(WidgetRef ref) {
     if (_formKey.currentState?.validate() ?? false) {
@@ -94,11 +96,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          hidePassword ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            hidePassword = !hidePassword;
+                          });
+                        },
+                      ),
+                    ),
+                    obscureText: hidePassword,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
+                      }
+
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
                       }
                       return null;
                     },

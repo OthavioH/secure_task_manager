@@ -21,6 +21,12 @@ export class UserController {
             });
         }
 
+        if(password.length < 6) {
+            return reply.status(400).send({
+                error: "Password must be at least 6 characters long."
+            });
+        }
+
         const userRepository = AppDataSource.getRepository(User);
 
         const hasUser = await userRepository.findOne({

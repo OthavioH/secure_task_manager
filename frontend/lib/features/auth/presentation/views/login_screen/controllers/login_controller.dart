@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_rpg_system/features/auth/domain/providers/auth_service_providers.dart';
-import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/controller/login_state.dart';
+import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/controllers/login_state.dart';
 
 final loginControllerProvider = NotifierProvider.autoDispose<LoginController, LoginState>(
   LoginController.new,
