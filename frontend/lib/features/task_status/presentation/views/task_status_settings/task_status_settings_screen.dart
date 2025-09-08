@@ -86,9 +86,15 @@ class TaskStatusSettingsScreen extends ConsumerWidget {
             const Divider(
               height: 32,
             ),
-            Center(
-              child: FilledButton.tonalIcon(
+            Align(
+              alignment: Alignment.centerRight,
+              child: OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Theme.of(context).colorScheme.error,
+                  side: BorderSide(color: Theme.of(context).colorScheme.error),
+                ),
                 label: Text('Logout'),
+                icon: Icon(Icons.logout),
                 onPressed: () {
                   ref.read(signOutControllerProvider.notifier).signOut();
                 },
