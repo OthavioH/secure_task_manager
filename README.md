@@ -3,6 +3,26 @@ Secure Task Manager é um website simples para gerenciar suas tarefas e seus sta
 
 O projeto implementa boas práticas de segurança com autenticação utilizando token JWT.
 
+## Tecnologias
+**Back-end**
+  - NodeJS
+  - TypeScript
+  - TypeORM
+  - Fastify
+  - Autenticação JWT (JSON Web Token)
+  - dotenv
+  - Crypto (para hash da senha)
+  - Docker
+  - PostgresSQL
+
+**Front-end**
+  - Flutter
+  - Shared Preferences
+  - flutter_dotenv
+  - Go Router
+  - DIO (Client http)
+  - Riverpod (Gerenciamento de estado)
+
 ## Arquitetura
 ```
 .github/
@@ -244,9 +264,49 @@ frontend/
 As variáveis de ambiente do frontend estão definidas em [frontend/.env.example](./frontend/.env.example).
 As variáveis de ambiente do backend estão definidas em [backend/.env.example](./backend/.env.example).
 
+## Como executar
+
+### Back-end
+Requisitos:
+- NodeJS
+- Opcional: Docker (caso queira rodar os containers dos bancos)
+
+1- Acesse o diretório /backend
+
+2- Execute ```npm install``` no terminal
+
+3- Crie uma .env na raíz do projeto (/backend)
+
+4- Insira as variáveis de ambiente para acesso ao seu Postgres
+
+5- Crie um SECRET para o JWT e insira nas variáveis de ambiente (Pode ser um texto em [base64](https://www.base64encode.org/))
+
+6- Crie um REFRESH_SECRET para o JWT e insira nas variáveis de ambiente (Pode ser um texto em [base64](https://www.base64encode.org/))
+
+7- Insira o endereço para o frontend nas variáveis de ambiente (ou insira "*" para qualquer endereço conseguir acessar a API)
+
+8- Rode ```npm run start:prod``` para gerar as migrations, os arquivos de build e rodar o projeto.
+
+### Front-end
+Requisitos:
+- Flutter
+- Chrome
+
+1- Acesse o diretório /frontend
+
+2- Rode ```flutter pub get```
+
+3- Crie uma .env na raíz do projeto (/frontend)
+
+4- Insira o endereço do seu backend na variável **API_URL**
+
+5- Rode o projeto com flutter run -d chrome --release
+
 ## Usuários de Teste
 **Login**: __teste__
+
 **Senha**: __teste123__
+
 ## Fluxos
 ### Login
 <img width="597" height="459" alt="Image" src="https://github.com/user-attachments/assets/bfbb64cf-2f2c-4dd3-9b7e-b5daa4711185" />
@@ -339,6 +399,7 @@ No exemplo abaixo, o status se chamava "doing" e foi mudado para "do" e a ediç�
 - **DELETE** `/task-status/:id`: Exclui um status de tarefa específico (autenticado).
 
 ### Detalhes das Rotas
+[**Coleção Postman**](/backend/postman_collection.json)
 
 #### **GET** `/ping`
 - **Descrição**: Verifica se o servidor está ativo.
@@ -368,10 +429,10 @@ No exemplo abaixo, o status se chamava "doing" e foi mudado para "do" e a ediç�
 #### **POST** `/auth/refresh`
 - **Descrição**: Atualiza o token de autenticação.
 - **Parâmetros**:
-  - **Body**:
+  - **Headers**:
     ```json
     {
-      "refreshToken": "string"
+      "Authorization": "Bearer <refresh_token>"
     }
     ```
 - **Retornos**:
@@ -544,4 +605,3 @@ No exemplo abaixo, o status se chamava "doing" e foi mudado para "do" e a ediç�
 - **Retornos**:
   - **200**: Status excluído com sucesso.
   - **404**: Status não encontrado.
-
