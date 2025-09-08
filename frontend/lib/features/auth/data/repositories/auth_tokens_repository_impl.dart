@@ -1,25 +1,25 @@
 
 import 'dart:convert';
 
-import 'package:simple_rpg_system/features/auth/data/data_sources/local_auth_data_source.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_rpg_system/features/auth/domain/models/user_tokens_model.dart';
 import 'package:simple_rpg_system/features/auth/domain/repositories/auth_tokens_repository.dart';
 
 class AuthTokensRepositoryImpl extends AuthTokensRepository {
-  final LocalAuthDataSource _localAuthDataSource;
+  final SharedPreferences _sharedPreferences;
 
-  AuthTokensRepositoryImpl({
-    required LocalAuthDataSource localAuthDataSource,
-  })  : _localAuthDataSource = localAuthDataSource;
+  AuthTokensRepositoryImpl(this._sharedPreferences);
+
+  final String _authTokenKey = 'auth_token';
 
   @override
   Future<void> deleteToken() {
-    return _localAuthDataSource.deleteToken();
+    return _sharedPreferences.remove(_authTokenKey);
   }
 
   @override
   UserTokensModel? getToken() {
-    final tokenStringJSON = _localAuthDataSource.getToken();
+    final tokenStringJSON = _sharedPreferences.getString(_authTokenKey);
     if(tokenStringJSON == null) {
       return null;
     }
@@ -31,7 +31,7 @@ class AuthTokensRepositoryImpl extends AuthTokensRepository {
   @override
   Future<void> saveToken(UserTokensModel token) {
     final tokenStringJSON = jsonEncode(token.toJson());
-    return _localAuthDataSource.saveToken(tokenStringJSON);
+    return _sharedPreferences.setString(_authTokenKey, tokenStringJSON);
   }
   
 }
