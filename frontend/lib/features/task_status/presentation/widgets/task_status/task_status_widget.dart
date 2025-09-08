@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_rpg_system/features/task_status/domain/models/task_status.dart';
-import 'package:simple_rpg_system/features/task_status/presentation/views/edit_task_status/edit_task_status_scren.dart';
+import 'package:simple_rpg_system/features/task_status/presentation/views/edit_task_status/edit_task_status_screen.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/widgets/task_status/controllers/delete_task_controller.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/widgets/task_status/controllers/delete_task_state.dart';
 
@@ -24,11 +24,19 @@ class TaskStatusWidget extends ConsumerWidget {
         if (state is DeleteTaskSuccessState) {
           onDelete(status.id);
         } else if (state is DeleteTaskErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Error deleting status: ${state.errorMessage}'),
-            ),
-          );
+          showDialog(
+					context: context,
+					builder: (context) => AlertDialog(
+						title: Text('Error'),
+						content: Text(state.errorMessage),
+						actions: [
+							TextButton(
+								onPressed: () => Navigator.of(context).pop(),
+								child: Text('OK'),
+							),
+						],
+					),
+				);
         }
       },
     );
