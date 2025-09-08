@@ -44,7 +44,7 @@
     "skipLibCheck": true,
   },
   "exclude": [
-    "migrations/**",
+    "src/migrations/**",
     "dist/**"
   ]
 }

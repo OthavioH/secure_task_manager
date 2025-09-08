@@ -15,11 +15,11 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD ?? "",
   database: process.env.DB_NAME ?? "",
   port: Number(process.env.DB_PORT),
-  synchronize: true,
+  synchronize: false, // Desativado para evitar problemas com SQL gerado automaticamente
   logging: false,
   entities: [User, Task, TaskStatus],
   subscribers: [],
-  migrations: [],
+  migrations: ["src/migrations/*.ts"],
 });
 
 export default AppDataSource;
