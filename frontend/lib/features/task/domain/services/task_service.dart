@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:simple_rpg_system/features/task/domain/models/task_model.dart';
 import 'package:simple_rpg_system/features/task/domain/repositories/task_repository.dart';
+import 'package:simple_rpg_system/features/task_status/domain/models/task_status.dart';
 import 'package:simple_rpg_system/features/user/domain/repositories/user_repository.dart';
 
 class TaskService {
@@ -49,6 +50,7 @@ class TaskService {
     required String taskId,
     required String title,
     required String description,
+    required TaskStatus status,
   }) async {
     try {
       final user = await _userRepository.getLoggedUser();
@@ -57,6 +59,7 @@ class TaskService {
           taskId: taskId,
           title: title,
           description: description,
+          statusId: status.id,
         );
       } else {
         throw Exception('No logged-in user found');

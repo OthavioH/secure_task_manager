@@ -32,6 +32,7 @@ class EditTaskController extends AutoDisposeNotifier<EditTaskState> {
         taskId: taskId,
         title: title,
         description: description,
+        status: status,
       );
       state = EditTaskSuccess(
         TaskModel(
@@ -44,7 +45,7 @@ class EditTaskController extends AutoDisposeNotifier<EditTaskState> {
       );
     } catch (e, stackTrace) {
       log('Error creating task:', error: e, stackTrace: stackTrace);
-      state = EditTaskError('Failed to create task');
+      state = EditTaskError(e.toString());
     }
   }
 }

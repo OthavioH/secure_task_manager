@@ -13,6 +13,7 @@ abstract class TaskRepository {
     required String taskId,
     required String title,
     required String description,
+    required String statusId,
   });
 
   Future<void> deleteTask(String taskId);

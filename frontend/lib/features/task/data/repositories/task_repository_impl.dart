@@ -87,6 +87,7 @@ class TaskRepositoryImpl extends TaskRepository {
     required String taskId,
     required String title,
     required String description,
+    required String statusId,
   }) {
     try {
       return _httpClient.patch(
@@ -94,6 +95,7 @@ class TaskRepositoryImpl extends TaskRepository {
       data: {
         "title": title,
         "description": description,
+        "statusId": statusId,
       },
     );
     } on DioException catch (error, stackTrace) {
