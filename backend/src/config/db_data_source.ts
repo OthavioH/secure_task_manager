@@ -15,7 +15,7 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD ?? "",
   database: process.env.DB_NAME ?? "",
   port: Number(process.env.DB_PORT),
-  synchronize: false, // Desativado para evitar problemas com SQL gerado automaticamente
+  synchronize: false,
   logging: false,
   entities: [User, Task, TaskStatus],
   subscribers: [],
