@@ -19,24 +19,26 @@ class TaskStatusWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(
-      deleteTaskControllerProvider,
+      deleteTaskControllerProvider(status.id),
       (_, state) {
         if (state is DeleteTaskSuccessState) {
           onDelete(status.id);
+          return;
         } else if (state is DeleteTaskErrorState) {
           showDialog(
-					context: context,
-					builder: (context) => AlertDialog(
-						title: Text('Error'),
-						content: Text(state.errorMessage),
-						actions: [
-							TextButton(
-								onPressed: () => Navigator.of(context).pop(),
-								child: Text('OK'),
-							),
-						],
-					),
-				);
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Error'),
+              content: Text(state.errorMessage),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          );
+          return;
         }
       },
     );
@@ -60,7 +62,7 @@ class TaskStatusWidget extends ConsumerWidget {
       child: Chip(
         label: Text(status.name),
         onDeleted: () async {
-          ref.read(deleteTaskControllerProvider.notifier).deleteTask(status.id);
+          ref.read(deleteTaskControllerProvider(status.id).notifier).deleteTask();
         },
       ),
     );

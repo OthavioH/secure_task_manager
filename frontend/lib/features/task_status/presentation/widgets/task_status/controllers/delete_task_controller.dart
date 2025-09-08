@@ -6,15 +6,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/widgets/task_status/controllers/delete_task_state.dart';
 import 'package:simple_rpg_system/features/task_status/providers/task_status_providers.dart';
 
-final deleteTaskControllerProvider = AutoDisposeNotifierProvider<DeleteTaskController, DeleteTaskState>(DeleteTaskController.new);
+final deleteTaskControllerProvider = AutoDisposeNotifierProvider.family<DeleteTaskController, DeleteTaskState, String>(DeleteTaskController.new);
 
-class DeleteTaskController extends AutoDisposeNotifier<DeleteTaskState> {
+class DeleteTaskController extends AutoDisposeFamilyNotifier<DeleteTaskState, String> {
+  late final String statusId;
+
   @override
-  build() {
+  build(String statusId) {
+    this.statusId = statusId;
     return DeleteTaskInitialState();
   }
 
-  Future<void> deleteTask(String statusId) async {
+  Future<void> deleteTask() async {
     state = DeleteTaskLoadingState();
     try {
       final taskStatusService = ref.watch(taskStatusServiceProvider);
