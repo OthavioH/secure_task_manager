@@ -77,6 +77,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.disabled,
           child: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 400),
@@ -85,6 +86,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   TextFormField(
                     controller: _usernameController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: const InputDecoration(labelText: 'Username'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -96,6 +98,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: _passwordController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       suffixIcon: IconButton(

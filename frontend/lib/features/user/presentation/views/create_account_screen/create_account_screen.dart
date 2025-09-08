@@ -93,7 +93,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
           vertical: SizeUtils.kVerticalPadding,
         ),
         child: Form(
-          autovalidateMode: AutovalidateMode.onUnfocus,
+          autovalidateMode: AutovalidateMode.disabled,
           key: _formKey,
           child: Center(
             child: ConstrainedBox(
@@ -103,10 +103,11 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                 children: [
                   TextFormField(
                     controller: _usernameController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: const InputDecoration(labelText: 'Username'),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Please enter your username';
+                        return 'Please enter a valid username';
                       }
                       return null;
                     },
@@ -114,11 +115,14 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: _passwordController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       suffixIcon: IconButton(
                         icon: Icon(
-                          hidePassword ? Icons.visibility : Icons.visibility_off,
+                          hidePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                         ),
                         onPressed: () {
                           setState(() {
@@ -141,11 +145,14 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: _confirmPasswordController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: 'Confirm password',
                       suffixIcon: IconButton(
                         icon: Icon(
-                          hideConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                          hideConfirmPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                         ),
                         onPressed: () {
                           setState(() {
@@ -156,9 +163,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                     ),
                     obscureText: hideConfirmPassword,
                     validator: (value) {
-                      if (value == null ||
-                          value.trim().isEmpty ||
-                          value.length < 6) {
+                      if (value == null || value.trim().isEmpty) {
                         return 'Please enter a valid password';
                       }
 

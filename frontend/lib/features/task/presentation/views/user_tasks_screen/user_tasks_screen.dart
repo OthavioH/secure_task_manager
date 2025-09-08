@@ -38,14 +38,6 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
           );
           return;
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              "There was an error while trying to load your tasks. Please, try again later.",
-            ),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
       },
     );
 
