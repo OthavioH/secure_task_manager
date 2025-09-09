@@ -27,211 +27,41 @@ O projeto implementa boas práticas de segurança com autenticação utilizando 
 [**Diagramas**](./docs/system-design)
 
 ```
-.github/ # Diretório contendo configurações de pipelines do GitHub Actions
-└── workflows/
-    └── build_web.yml
-
-backend/  # Diretório principal do backend
-├── migrations/   # Diretório que contém as migrations
-├── src/    # Código-fonte do backend.
-    ├── config/   # Arquivos de configuração
-        ├── db_data_source.ts   # Configuração do DataSource do TypeORM, onde é configurada a conexão do banco de dados, entidades e outras configurações do TypeORM
-        └── environment_config.ts   # Configuração para pegar as variáveis de ambiente do projeto
-    ├── controllers/    # Diretório de Controllers, responsáveis por gerenciar as requisições recebidas pelas rotas da API. Eles utilizam as entidades e repositórios do TypeORM para realizar operações no banco de dados e retornam as respostas apropriadas
-        ├── auth_controller.ts    # Gerencia a autenticação e autorização, incluindo login e renovação de tokens.
-        ├── task_controller.ts    # Lida com operações relacionadas às tarefas, como criação, leitura, atualização e exclusão.
-        ├── task_status_controller.ts     # Gerencia os status das tarefas, permitindo criar, listar, atualizar e excluir status.
-        └── user_controller.ts    # Responsável por operações relacionadas aos usuários, como criação de novos usuários.
-    ├── entities/   # Representam modelos dos dados do sitema, ligados ao banco de dados utilizando o TypeORM. Cada entidade define os campos, tipos e relacionamentos necessários.
-        ├── task_status.ts    # Entidade que representa status das tarefas, como "pendente" ou "em andamento".
-        ├── task.ts   # Entidade que representa as tarefas, com informações como: título e descrição.
-        └── user.ts   # Entidade que representa os usuários do sistema, incluindo informações de nome de usuário, senha (armazenada como hash MD5).
-    ├── middlewares/    # Funções intermediárias que são executadas antes ou depois das rotas. Eles são usados para adicionar autenticação ou validação.
-        └── auth_middleware.ts    # Responsável por verificar se o usuário está autenticado, validando o token JWT presente no cabeçalho da requisição.
-    ├── models/   # Estruturas auxiliares que definem tipos e interfaces para dados que não estão diretamente associados às entidades do banco de dados;
-        ├── jwt_payload.ts    # Define o formato do playload do token JWT.
-        └── user_tokens.ts    # Representa os tokens de autenticação (access token e refresh token)
-    ├── routes.ts   # Responsável por definir todas as rotas da API
-    └── server.ts   # Responsável por inicializar o servidor Fastify e configurar os principais aspectos da aplicação, como CORS, rotas, Loggers, etc.
-├── .env.example    # Arquivo de exemplo para configuração da .env
-├── .env    # Arquivo com variáveis de ambiente do sistema
-├── docker-compose.db.mysql   # Arquivo de configuração para rodar um docker com MySQL
-├── docker-compose.db.postgres.yml    # Arquivo de configuração para rodar um docker com Postgres
-├── package.json    # Arquivo de configuração do projeto, com configurações para dependências e scripts
-└── tsconfig.json   # Arquivo de configuração do TypeScript
-
-frontend/  # Diretório principal do frontend
-├── lib/  # Contém o código principal do aplicativo Flutter
-    ├── core/  # Configurações e utilitários globais do projeto
-        ├── config/
-            └── environment_config.dart  # Configuração para acessar variáveis de ambiente no Flutter
-        └── utils/
-            └── size_utils.dart  # Funções auxiliares para lidar com tamanhos e dimensões na interface
-    ├── features/  # Funcionalidades principais do aplicativo
-        ├── auth/  # Gerenciamento de autenticação
-            ├── data/  # Implementações relacionadas a dados, como repositórios e interceptors
-                ├── interceptors/
-                    └── auth_interceptor.dart  # Intercepta requisições para adicionar tokens de autenticação
-                ├── providers/
-                    └── auth_repository_providers.dart  # Fornece instâncias de repositórios de autenticação
-                └── repositories/
-                    ├── auth_repository_impl.dart  # Implementação do repositório de autenticação
-                    └── auth_tokens_repository_impl.dart  # Implementação do repositório de tokens de autenticação
-            ├── domain/  # Modelos, serviços e interfaces relacionados à autenticação
-                ├── models/
-                    └── user_tokens_model.dart  # Modelo para representar tokens de usuário
-                ├── providers/
-                    └── auth_service_providers.dart  # Fornece instâncias de serviços de autenticação
-                ├── repositories/
-                    ├── auth_repository.dart  # Interface para o repositório de autenticação
-                    └── auth_tokens_repository.dart  # Interface para o repositório de tokens de autenticação
-                └── services/
-                    └── auth_service.dart  # Serviço para lidar com lógica de autenticação
-            ├── exceptions/  # Exceções específicas para autenticação
-                ├── login_exception.dart  # Exceção para erros de login
-                └── refresh_token_exception.dart  # Exceção para erros ao renovar tokens
-            ├── presentation/  # Camada de apresentação (UI e controladores)
-                └── views/
-                    └── login_screen/  # Tela de login
-                        ├── controller/
-                            ├── login_controller.dart  # Controlador para gerenciar a lógica da tela de login
-                            └── login_state.dart  # Estado gerenciado pelo controlador de login
-                        └── login_screen.dart  # Interface da tela de login
-            └── routes/
-                └── auth_routes.dart  # Definição de rotas relacionadas à autenticação
-        ├── task/  # Funcionalidades relacionadas às tarefas
-            ├── data/  # Implementações relacionadas a dados de tarefas
-                └── repositories/
-                    └── task_repository_impl.dart  # Implementação do repositório de tarefas
-            ├── domain/  # Modelos, serviços e interfaces relacionados às tarefas
-                ├── models/
-                    └── task_model.dart  # Modelo para representar uma tarefa
-                ├── repositories/
-                    └── task_repository.dart  # Interface para o repositório de tarefas
-                └── services/
-                    └── task_service.dart  # Serviço para lidar com lógica de tarefas
-            ├── exceptions/  # Exceções específicas para tarefas
-                ├── create_task_exception.dart  # Exceção para erros ao criar tarefas
-                ├── delete_task_exception.dart  # Exceção para erros ao deletar tarefas
-                ├── get_task_exception.dart  # Exceção para erros ao obter tarefas
-                └── update_task_exception.dart  # Exceção para erros ao atualizar tarefas
-            ├── presentation/  # Camada de apresentação (UI e controladores)
-                ├── views/
-                    ├── create_task_modal/  # Modal para criar tarefas
-                        ├── controllers/
-                            ├── create_task_controller.dart  # Controlador para criar tarefas
-                            ├── create_task_state.dart  # Estado gerenciado pelo controlador de criação de tarefas
-                            └── task_status_provider.dart  # Fornece status de tarefas
-                        └── create_task_modal.dart  # Interface do modal de criação de tarefas
-                    ├── edit_task_modal/  # Modal para editar tarefas
-                        ├── controllers/
-                            ├── edit_task_controller.dart  # Controlador para editar tarefas
-                            └── edit_task_state.dart  # Estado gerenciado pelo controlador de edição de tarefas
-                        └── edit_task_modal.dart  # Interface do modal de edição de tarefas
-                    └── user_tasks_screen/  # Tela para exibir tarefas do usuário
-                        ├── controllers/
-                            └── user_tasks_controller.dart  # Controlador para gerenciar tarefas do usuário
-                        └── user_tasks_screen.dart  # Interface da tela de tarefas do usuário
-                └── widgets/  # Componentes reutilizáveis relacionados às tarefas
-                    ├── session_expired_snack_bar.dart  # Snack bar para sessão expirada
-                    └── task_item.dart  # Componente para exibir itens de tarefas
-            └── providers/
-                └── task_providers.dart  # Fornece instâncias relacionadas às tarefas
-        ├── task_status/  # Funcionalidades relacionadas ao status das tarefas
-            ├── data/  # Implementações relacionadas a dados de status de tarefas
-                └── repositories/
-                    └── task_status_repository_impl.dart  # Implementação do repositório de status de tarefas
-            ├── domain/  # Modelos, serviços e interfaces relacionados ao status de tarefas
-                ├── models/
-                    └── task_status.dart  # Modelo para representar status de tarefas
-                ├── repositories/
-                    └── task_status_repository.dart  # Interface para o repositório de status de tarefas
-                └── services/
-                    └── task_status_service.dart  # Serviço para lidar com lógica de status de tarefas
-            ├── exceptions/  # Exceções específicas para status de tarefas
-                ├── create_task_status_exception.dart  # Exceção para erros ao criar status de tarefas
-                ├── delete_task_status_exception.dart  # Exceção para erros ao deletar status de tarefas
-                ├── get_task_status_exception.dart  # Exceção para erros ao obter status de tarefas
-                └── update_task_status_exception.dart  # Exceção para erros ao atualizar status de tarefas
-            ├── presentation/  # Camada de apresentação (UI e controladores)
-                ├── views/
-                    ├── create_task_status/  # Modal para criar status de tarefas
-                        ├── controllers/
-                            └── create_task_status_controller.dart  # Controlador para criar status de tarefas
-                        └── create_task_status_modal.dart  # Interface do modal de criação de status de tarefas
-                    ├── edit_task_status/  # Modal para editar status de tarefas
-                        ├── controllers/
-                            ├── edit_task_status_controller.dart  # Controlador para editar status de tarefas
-                            └── edit_task_status_state.dart  # Estado gerenciado pelo controlador de edição de status de tarefas
-                        └── edit_task_status_screen.dart  # Interface do modal de edição de status de tarefas
-                    ├── task_status_settings/  # Tela de configurações de status de tarefas
-                        ├── controllers/
-                            ├── sign_out_controller.dart  # Controlador para gerenciar logout
-                            ├── sign_out_state.dart  # Estado gerenciado pelo controlador de logout
-                            ├── task_status_settings_controller.dart  # Controlador para configurações de status de tarefas
-                            └── task_status_settings_state.dart  # Estado gerenciado pelo controlador de configurações de status de tarefas
-                        └── task_status_settings_screen.dart  # Interface da tela de configurações de status de tarefas
-                    └── task_status_settings_screen.dart  # Tela de configurações de status de tarefas
-                └── widgets/  # Componentes reutilizáveis relacionados ao status de tarefas
-                    └── task_status/
-                        ├── controllers/
-                            ├── delete_task_controller.dart  # Controlador para deletar status de tarefas
-                            └── delete_task_state.dart  # Estado gerenciado pelo controlador de deleção de status de tarefas
-                        └── task_status_widget.dart  # Componente para exibir status de tarefas
-            └── providers/
-                └── task_status_providers.dart  # Fornece instâncias relacionadas ao status de tarefas
-        └── user/  # Funcionalidades relacionadas aos usuários
-            ├── data/  # Implementações relacionadas a dados de usuários
-                └── repositories/
-                    └── user_repository_impl.dart  # Implementação do repositório de usuários
-            ├── domain/  # Modelos, serviços e interfaces relacionados aos usuários
-                ├── models/
-                    └── user_model.dart  # Modelo para representar um usuário
-                ├── repositories/
-                    └── user_repository.dart  # Interface para o repositório de usuários
-                └── services/
-                    └── user_service.dart  # Serviço para lidar com lógica de usuários
-            ├── exception/  # Exceções específicas para usuários
-                └── create_account_exception.dart  # Exceção para erros ao criar conta
-            ├── presentation/  # Camada de apresentação (UI e controladores)
-                └── views/
-                    └── create_account_screen/  # Tela de criação de conta
-                        ├── controller/
-                            ├── create_account_controller.dart  # Controlador para criar conta
-                            └── create_account_state.dart  # Estado gerenciado pelo controlador de criação de conta
-                        └── create_account_screen.dart  # Interface da tela de criação de conta
-            ├── providers/  # Fornecedores de instâncias relacionadas aos usuários
-                ├── user_repository_providers.dart  # Fornece instâncias de repositórios de usuários
-                └── user_service_providers.dart  # Fornece instâncias de serviços de usuários
-            └── routes/
-                └── user_routes.dart  # Definição de rotas relacionadas aos usuários
-    ├── routes/
-        └── app_router.dart  # Configuração de rotas principais do aplicativo
-    ├── shared/  # Componentes e serviços compartilhados
-        ├── controllers/
-            ├── auth_guard_controller.dart  # Controlador para proteger rotas com autenticação
-            └── auth_guard_state.dart  # Estado gerenciado pelo controlador de proteção de rotas
-        └── providers/
-            ├── http_client_provider.dart  # Fornece instância do cliente HTTP
-            ├── providers_initializer.dart  # Inicializa os provedores do aplicativo
-            └── shared_preferences_provider.dart  # Fornece instância do SharedPreferences
-    ├── theme/  # Configuração de temas do aplicativo
-        └── app_theme.dart  # Tema principal do aplicativo
-    └── main.dart  # Arquivo principal do aplicativo Flutter
-├── web/  # Arquivos relacionados à versão web do aplicativo
-    ├── icons/  # Ícones utilizados na versão web
-        ├── Icon-192.png  # Ícone de 192px
-        ├── Icon-512.png  # Ícone de 512px
-        ├── Icon-maskable-192.png  # Ícone mascarável de 192px
-        └── Icon-maskable-512.png  # Ícone mascarável de 512px
-    ├── favicon.png  # Favicon do aplicativo
-    ├── index.html  # Arquivo HTML principal da versão web
-    └── manifest.json  # Manifesto da aplicação web
-├── .env.example    # Arquivo de exemplo para configuração da .env
-├── .env    # Arquivo com variáveis de ambiente do sistema
-├── .gitignore    # Arquivo de configuiração para o GIT ignorar arquivos e pastas do repositório.
-├── analysis_options.yaml   # Configurações de análise estática e regras de lint do Dart
-├── pubspec.yaml            # Configuração do projeto Flutter: dependências, assets, versões, etc.
+├── .github/
+│   └── workflows/
+│       └── build_web.yml      # Pipeline de CI/CD para a build da versão web
+├── backend/
+│   ├── migrations/            # Migrations do banco de dados (TypeORM)
+│   ├── src/
+│   │   ├── config/            # Configurações de ambiente e banco de dados
+│   │   ├── controllers/       # Controladores que lidam com as requisições HTTP
+│   │   ├── entities/          # Modelos de dados (tabelas do banco)
+│   │   ├── middlewares/       # Middlewares (ex: verificação de autenticação)
+│   │   ├── models/            # Tipos e interfaces auxiliares
+│   │   ├── routes.ts          # Definição de todas as rotas da API
+│   │   └── server.ts          # Ponto de entrada do servidor Fastify
+│   ├── .env.example           # Exemplo de variáveis de ambiente
+│   ├── docker-compose.db.mysql.yml # Docker Compose para subir um container MySQL
+│   ├── docker-compose.db.postgres.yml # Docker Compose para subir um container Postgres
+│   ├── package.json
+│   └── tsconfig.json
+└── frontend/
+    ├── lib/
+    │   ├── core/              # Configurações globais e utilitários
+    │   ├── features/          # Módulos do app, separados por funcionalidade (Auth, Task, etc.)
+    │   │   └── [feature_name]/
+    │   │       ├── data/      # Implementação de repositórios e fontes de dados
+    │   │       ├── domain/    # Lógica de negócio, modelos e interfaces (abstração)
+    │   │       ├── exceptions/  # Exceções customizadas da funcionalidade
+    │   │       └── presentation/ # Widgets (UI), controllers e gerenciamento de estado
+    │   ├── routes/            # Configuração das rotas de navegação
+    │   ├── shared/            # Widgets e serviços compartilhados entre as features
+    │   ├── theme/             # Definição do tema da aplicação
+    │   └── main.dart          # Ponto de entrada da aplicação Flutter
+    ├── web/                   # Arquivos específicos para a plataforma web
+    ├── .env.example           # Exemplo de variáveis de ambiente
+    ├── analysis_options.yaml  # Regras de lint e análise estática
+    └── pubspec.yaml           # Dependências e configuração do projeto Flutter
 ```
 
 ## Variáveis de Ambiente
