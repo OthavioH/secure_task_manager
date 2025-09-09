@@ -2,7 +2,7 @@ import AppDataSource from "../config/db_data_source";
 import { User } from "../entities/user";
 import { FastifyRequest, FastifyReply } from "fastify";
 
-import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 export class UserController {
     
@@ -41,10 +41,8 @@ export class UserController {
             });
         }
 
-        const hashedPassword = crypto
-            .createHash("md5")
-            .update(password)
-            .digest("hex");
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const user = userRepository.create({
             username,

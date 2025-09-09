@@ -2,11 +2,12 @@ import AppDataSource from "../config/db_data_source";
 import { User } from "../entities/user";
 import { FastifyRequest, FastifyReply } from "fastify";
 
-import crypto from "crypto";
 import jwt from 'jsonwebtoken';
 import { envConfig } from "../config/environment_config";
 import JWTPayload from "../models/jwt_payload";
 import UserTokens from "../models/user_tokens";
+
+import bcrypt from "bcrypt";
 
 export class AuthController {
 
@@ -27,11 +28,6 @@ export class AuthController {
         
         const userRepository = AppDataSource.getRepository(User);
 
-        const hashedPassword = crypto
-            .createHash("md5")
-            .update(password)
-            .digest("hex");
-
         const user = await userRepository.findOne({
             where: {
                 username,
@@ -42,7 +38,9 @@ export class AuthController {
             return reply.status(401).send({ error: "Username or password is invalid" });
         }
 
-        if (user.password != hashedPassword) {
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
             return reply.status(401).send({ error: "Username or password is invalid" });
         }
 

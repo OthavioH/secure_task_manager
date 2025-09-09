@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "ty
 import { Task } from "./task";
 import { User } from "./user";
 
-@Entity()
+@Entity("task_status")
 export class TaskStatus {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
