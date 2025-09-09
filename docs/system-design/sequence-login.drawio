@@ -1,0 +1,76 @@
+<mxfile host="65bd71144e">
+    <diagram name="ERD Essencial — N:N (Usuários ↔ Grupos via junção)" id="cPOKqXPRDHMzoA-mC0_p">
+        <mxGraphModel dx="446" dy="471" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-1" value="Usuário" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="305" y="150" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" style="html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;strokeWidth=2;" edge="1" parent="1" source="72--yCDR-1KzdnYnBsTK-2" target="2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-2" value="Frontend/Navegador" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="270" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-3" value="Backend" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="400" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-4" value="Banco de Dados" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="534.5" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-5" value="Submete credenciais" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="72--yCDR-1KzdnYnBsTK-1" target="72--yCDR-1KzdnYnBsTK-2" edge="1">
+                    <mxGeometry x="-0.1429" y="-70" relative="1" as="geometry">
+                        <mxPoint x="235" y="300" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-6" value="POST /login (username, password)" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="72--yCDR-1KzdnYnBsTK-2" target="72--yCDR-1KzdnYnBsTK-3" edge="1">
+                    <mxGeometry y="-110" relative="1" as="geometry">
+                        <mxPoint x="235" y="350" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-7" value="SELECT user by username" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="72--yCDR-1KzdnYnBsTK-3" target="72--yCDR-1KzdnYnBsTK-4" edge="1">
+                    <mxGeometry x="-0.0533" y="-80" relative="1" as="geometry">
+                        <mxPoint x="235" y="400" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-8" value="user + hash" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="72--yCDR-1KzdnYnBsTK-4" target="72--yCDR-1KzdnYnBsTK-3" edge="1">
+                    <mxGeometry x="0.0533" y="-60" relative="1" as="geometry">
+                        <mxPoint x="235" y="450" as="targetPoint"/>
+                        <mxPoint y="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-9" value="Valida hash; cria token JWT e refresh token,&#xa;baseado no user" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="72--yCDR-1KzdnYnBsTK-3" target="72--yCDR-1KzdnYnBsTK-3" edge="1">
+                    <mxGeometry y="130" relative="1" as="geometry">
+                        <mxPoint x="235" y="490" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="570" y="425"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-10" value="200 OK ( Body: { user, tokens })" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="72--yCDR-1KzdnYnBsTK-3" target="72--yCDR-1KzdnYnBsTK-2" edge="1">
+                    <mxGeometry y="-120" relative="1" as="geometry">
+                        <mxPoint x="235" y="540" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="72--yCDR-1KzdnYnBsTK-11" value="Redireciona para a tela de tarefas (área autenticada" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="72--yCDR-1KzdnYnBsTK-2" target="72--yCDR-1KzdnYnBsTK-1" edge="1">
+                    <mxGeometry x="0.1429" y="-150" relative="1" as="geometry">
+                        <mxPoint x="235" y="590" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="2" value="Armazena tokens de forma segura" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="590" y="265" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;Backend aplica cabeçalhos de segurança (CSP, HTTP Strict-Transport-Security, X-Content-Type-Options: nosniff) para proteger o cliente contra ataques&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="330" width="170" height="70" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

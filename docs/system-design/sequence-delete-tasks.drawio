@@ -1,0 +1,70 @@
+<mxfile host="65bd71144e">
+    <diagram name="ERD Essencial — N:N (Usuários ↔ Grupos via junção)" id="cPOKqXPRDHMzoA-mC0_p">
+        <mxGraphModel dx="1637" dy="825" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-1" value="Usuário" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="170" y="190" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-2" value="Frontend/Navegador" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="145" y="340" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-3" value="Backend" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="165" y="460" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-4" value="Banco de Dados" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="165" y="580" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-5" value="Clica no botão de remover" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="8K_EmymfjktEMwSY1nLG-1" target="8K_EmymfjktEMwSY1nLG-2" edge="1">
+                    <mxGeometry y="-95" relative="1" as="geometry">
+                        <mxPoint x="310" y="280" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-6" value="DELETE /task/:id (Token JWT)" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="8K_EmymfjktEMwSY1nLG-2" target="8K_EmymfjktEMwSY1nLG-3" edge="1">
+                    <mxGeometry x="0.1429" y="-155" relative="1" as="geometry">
+                        <mxPoint x="310" y="330" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-7" value="Validação do Token JWT +&#xa;Validação dos dados enviados +&#xa;Validação de statusId válido" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="8K_EmymfjktEMwSY1nLG-3" target="8K_EmymfjktEMwSY1nLG-3" edge="1">
+                    <mxGeometry x="-0.0322" y="-110" relative="1" as="geometry">
+                        <mxPoint x="310" y="380" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="20" y="490"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-8" value="DELETE na tabela &quot;tasks&quot;&#xa;WHERE id = id" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="8K_EmymfjktEMwSY1nLG-3" target="8K_EmymfjktEMwSY1nLG-4" edge="1">
+                    <mxGeometry x="0.1429" y="-85" relative="1" as="geometry">
+                        <mxPoint x="310" y="430" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-9" value="OK (task deletada)" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="8K_EmymfjktEMwSY1nLG-4" target="8K_EmymfjktEMwSY1nLG-3" edge="1">
+                    <mxGeometry x="-0.1429" y="-55" relative="1" as="geometry">
+                        <mxPoint x="310" y="480" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-10" value="204 No Content" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="8K_EmymfjktEMwSY1nLG-3" target="8K_EmymfjktEMwSY1nLG-2" edge="1">
+                    <mxGeometry x="-0.1429" y="-85" relative="1" as="geometry">
+                        <mxPoint x="310" y="530" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8K_EmymfjktEMwSY1nLG-11" value="Remove o task_status&#xa;na UI da lista de statuses" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="8K_EmymfjktEMwSY1nLG-2" target="8K_EmymfjktEMwSY1nLG-1" edge="1">
+                    <mxGeometry y="-105" relative="1" as="geometry">
+                        <mxPoint x="310" y="580" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="2" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;Backend aplica cabeçalhos de segurança (CSP, HTTP Strict-Transport-Security, X-Content-Type-Options: nosniff) para proteger o cliente contra ataques&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="390" y="400" width="170" height="70" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

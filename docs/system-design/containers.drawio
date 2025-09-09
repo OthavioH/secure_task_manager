@@ -1,0 +1,34 @@
+<mxfile host="65bd71144e">
+    <diagram id="containers-v3" name="Containers (C4 L2) v3">
+        <mxGraphModel dx="1155" dy="825" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="browser" value="Navegador / Cliente" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="110" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="frontend" value="Frontend (SPA)" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="100" width="240" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="backend" value="Backend (API)" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="100" width="240" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="db" value="Banco de Dados" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="140" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec" value="Auth: JWT (JSON Web Token)" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;fillColor=#ffffff;strokeColor=#999999;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="240" width="260" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="ce1" value="HTTPS" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="browser" target="frontend" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ce2" value="REST/HTTPS" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="frontend" target="backend" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ce3" value="SQL" style="endArrow=block;endFill=1;strokeWidth=2;" parent="1" source="backend" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
