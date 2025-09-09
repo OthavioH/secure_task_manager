@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import AppDataSource from "./config/db_data_source";
 import routes from "./routes";
 import { envConfig } from "./config/environment_config";
+import helmet from "@fastify/helmet";
 
 dotenv.config();
 
@@ -25,6 +26,8 @@ AppDataSource.initialize().then(() => {
     origin: envConfig.frontendAddress,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   });
+
+  app.register(helmet)
 
   app.register(routes);
 
