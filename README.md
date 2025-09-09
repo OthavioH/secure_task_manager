@@ -23,7 +23,9 @@ O projeto implementa boas práticas de segurança com autenticação utilizando 
   - DIO (Client http)
   - Riverpod (Gerenciamento de estado)
 
-## Arquitetura
+## Arquitetura / System Design
+[**Diagramas**](./docs/system-design)
+
 ```
 .github/ # Diretório contendo configurações de pipelines do GitHub Actions
 └── workflows/
