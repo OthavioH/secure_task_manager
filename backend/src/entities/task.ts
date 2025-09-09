@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "./user";
 import { TaskStatus } from "./task_status";
 
-@Entity("task")
+@Entity("tasks")
 export class Task {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
