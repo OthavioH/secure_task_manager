@@ -26,7 +26,7 @@ class TaskStatusSettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Task Status Settings'),
+        title: const Text('Settings'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
