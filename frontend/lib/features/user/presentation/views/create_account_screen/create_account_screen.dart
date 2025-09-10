@@ -9,8 +9,7 @@ class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({super.key});
 
   @override
-  ConsumerState<CreateAccountScreen> createState() =>
-      _CreateAccountScreenState();
+  ConsumerState<CreateAccountScreen> createState() => _CreateAccountScreenState();
 }
 
 class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
@@ -119,9 +118,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                       labelText: 'Password',
                       suffixIcon: IconButton(
                         icon: Icon(
-                          hidePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          hidePassword ? Icons.visibility : Icons.visibility_off,
                         ),
                         onPressed: () {
                           setState(() {
@@ -149,9 +146,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                       labelText: 'Confirm password',
                       suffixIcon: IconButton(
                         icon: Icon(
-                          hideConfirmPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          hideConfirmPassword ? Icons.visibility : Icons.visibility_off,
                         ),
                         onPressed: () {
                           setState(() {
@@ -180,7 +175,9 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                   FilledButton(
                     onPressed: isLoading ? null : () => onSubmit(),
                     child: isLoading
-                        ? const CircularProgressIndicator()
+                        ? CircularProgressIndicator(
+                            padding: EdgeInsets.all(8),
+                          )
                         : const Text('Create account'),
                   ),
                 ],

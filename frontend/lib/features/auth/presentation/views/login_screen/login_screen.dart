@@ -132,7 +132,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   FilledButton(
                     onPressed: isLoading ? null : () => onSubmit(ref),
                     child: isLoading
-                        ? const CircularProgressIndicator()
+                        ? CircularProgressIndicator(
+                            padding: EdgeInsets.all(8),
+                          )
                         : const Text('Login'),
                   ),
                   const SizedBox(height: 16),
@@ -140,7 +142,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     onPressed: () async {
                       final hasCreatedAccount = await context.push<bool>(UserRoutes.createAccountRoute);
 
-                      if(hasCreatedAccount == true) {
+                      if (hasCreatedAccount == true) {
                         resetForm();
                       }
                     },

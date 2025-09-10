@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:simple_rpg_system/core/utils/size_utils.dart';
+import 'package:simple_rpg_system/theme/app_filled_button_styles.dart';
+import 'package:simple_rpg_system/theme/app_outlined_button_styles.dart';
+import 'package:simple_rpg_system/theme/app_text_theme.dart';
 
 class AppTheme {
   AppTheme._();
 
+  static Color get seedColor => Colors.yellow;
+
   static ThemeData get lightTheme {
     final colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.blue,
+      seedColor: seedColor,
       brightness: Brightness.light,
     );
     return ThemeData.light().copyWith(
@@ -21,18 +26,29 @@ class AppTheme {
           maxWidth: 80,
           minWidth: 50,
         ),
-      )
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        constraints: BoxConstraints(minHeight: 100, maxHeight: 400, maxWidth: 600)
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: AppFilledButtonStyles().defaultTheme(colorScheme),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: AppOutlinedButtonStyles().defaultTheme(colorScheme),
+      ),
+      textTheme: AppTextTheme.lightTextTheme,
     );
   }
 
   static ThemeData get darkTheme {
     final colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.blue,
+      seedColor: seedColor,
       brightness: Brightness.dark,
     );
     return ThemeData.dark().copyWith(
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colorScheme.surface,
+      textTheme: AppTextTheme.darkTextTheme,
       appBarTheme: AppBarThemeData(
         actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding),
         centerTitle: true,
@@ -47,14 +63,11 @@ class AppTheme {
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          minimumSize: Size.fromHeight(48),
-          padding: EdgeInsets.symmetric(
-            horizontal: SizeUtils.kHorizontalPadding,
-            vertical: SizeUtils.kVerticalPadding
-          ),
-        ),
-      )
+        style: AppFilledButtonStyles().defaultTheme(colorScheme),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: AppOutlinedButtonStyles().defaultTheme(colorScheme),
+      ),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:simple_rpg_system/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
       title: 'Secure Task Manager',
