@@ -5,13 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_rpg_system/features/task/domain/models/task_model.dart';
 import 'package:simple_rpg_system/features/task/providers/task_providers.dart';
 
-final userTasksControllerProvider = AutoDisposeAsyncNotifierProvider<UserTasksController, List<TaskModel>>(UserTasksController.new);
+final userTasksControllerProvider = AsyncNotifierProvider.autoDispose.family<UserTasksController, List<TaskModel>, GetTasksFilter>(UserTasksController.new);
 
-class UserTasksController extends AutoDisposeAsyncNotifier<List<TaskModel>> {
+class UserTasksController extends AutoDisposeFamilyAsyncNotifier<List<TaskModel>, GetTasksFilter> {
   @override
-  FutureOr<List<TaskModel>> build() async {
+  FutureOr<List<TaskModel>> build(GetTasksFilter arg) async {
     final taskService = ref.watch(taskServiceProvider);
-    return await taskService.getTasksForCurrentUser();
+    return await taskService.getTasksForCurrentUser(
+      statusId: arg.statusId,
+    );
   }
 
   void addTask(TaskModel task) {
@@ -44,4 +46,11 @@ class UserTasksController extends AutoDisposeAsyncNotifier<List<TaskModel>> {
       state = AsyncData([...currentTasks, originalTask]);
     }
   }
+}
+
+class GetTasksFilter {
+  final String? statusId;
+
+  GetTasksFilter({this.statusId});
+  
 }
