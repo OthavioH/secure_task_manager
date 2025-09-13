@@ -11,6 +11,7 @@ import 'package:simple_rpg_system/features/task/presentation/views/user_tasks_sc
 import 'package:simple_rpg_system/features/task/presentation/widgets/task_item.dart';
 import 'package:simple_rpg_system/features/task/presentation/widgets/task_status_filter_all.dart';
 import 'package:simple_rpg_system/features/task/presentation/widgets/task_status_filter_item.dart';
+import 'package:simple_rpg_system/shared/widgets/gradient_background.dart';
 
 class UserTasksScreen extends ConsumerStatefulWidget {
   const UserTasksScreen({super.key});
@@ -34,7 +35,7 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
           );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
+              content: const Text(
                 "There was an error while trying to load your tasks. Please, try again later.",
               ),
               backgroundColor: Theme.of(context).colorScheme.error,
@@ -46,32 +47,14 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
     );
 
     final userTaskState = ref.watch(userTasksControllerProvider);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color.lerp(
-              Theme.of(context).colorScheme.surface,
-              Theme.of(context).colorScheme.primaryContainer,
-              0.4,
-            )!,
-            Theme.of(context).colorScheme.primaryContainer,
-          ],
-          stops: [
-            0.2,
-            1,
-          ],
-        ),
-      ),
+    return GradientBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           actions: [
             IconButton(
-              icon: Icon(Icons.settings),
+              icon: const Icon(Icons.settings),
               onPressed: () async {
                 await context.push('/settings');
                 ref.invalidate(userTasksControllerProvider);
@@ -87,7 +70,7 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
               onPressed: () async {
                 final _ = ref.refresh(userTasksControllerProvider);
               },
-              child: Icon(Icons.refresh),
+              child: const Icon(Icons.refresh),
             ),
             const SizedBox(height: 16),
             FloatingActionButton(
@@ -98,20 +81,22 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
                   builder: (context) => BottomSheet(
                     enableDrag: false,
                     onClosing: () {},
-                    builder: (context) => CreateTaskModal(),
+                    builder: (context) => const CreateTaskModal(),
                   ),
                 );
 
                 if (createdTask == null || createdTask is! TaskModel) return;
 
-                ref.read(userTasksControllerProvider.notifier).addTask(createdTask);
+                ref
+                    .read(userTasksControllerProvider.notifier)
+                    .addTask(createdTask);
               },
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
             ),
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: SizeUtils.kHorizontalPadding,
             vertical: SizeUtils.kVerticalPadding,
           ),
@@ -124,8 +109,9 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
               ),
               const SizedBox(height: 8),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runSpacing: 16,
                 children: [
                   Text(
                     'Filter by status:',
@@ -137,8 +123,14 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
                     spacing: 8,
                     children: [
                       TaskStatusFilterAll(
-                        isSelected: ref.watch(tasksStatusControllerProvider).selectedStatus == null,
-                        onSelect: ref.read(tasksStatusControllerProvider.notifier).selectAllStatuses,
+                        isSelected:
+                            ref
+                                .watch(tasksStatusControllerProvider)
+                                .selectedStatus ==
+                            null,
+                        onSelect: ref
+                            .read(tasksStatusControllerProvider.notifier)
+                            .selectAllStatuses,
                       ),
                       ...ref
                           .watch(tasksStatusControllerProvider)
@@ -146,8 +138,14 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
                           .map(
                             (status) => TaskStatusFilterItem(
                               status: status,
-                              isSelected: ref.watch(tasksStatusControllerProvider).selectedStatus == status,
-                              onTap: ref.read(tasksStatusControllerProvider.notifier).toggleStatus,
+                              isSelected:
+                                  ref
+                                      .watch(tasksStatusControllerProvider)
+                                      .selectedStatus ==
+                                  status,
+                              onTap: ref
+                                  .read(tasksStatusControllerProvider.notifier)
+                                  .toggleStatus,
                             ),
                           ),
                     ],
@@ -156,15 +154,15 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
               ),
               const SizedBox(height: 16),
               userTaskState.when(
-                loading: () => Center(child: CircularProgressIndicator()),
+                loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stackTrace) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 },
                 data: (data) {
                   if (data.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Text('There are no tasks yet'),
                     );
                   }
@@ -175,8 +173,12 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
                         .map(
                           (task) => TaskItem(
                             task: task,
-                            onDelete: ref.read(userTasksControllerProvider.notifier).deleteTask,
-                            onUpdate: ref.read(userTasksControllerProvider.notifier).updateTask,
+                            onDelete: ref
+                                .read(userTasksControllerProvider.notifier)
+                                .deleteTask,
+                            onUpdate: ref
+                                .read(userTasksControllerProvider.notifier)
+                                .updateTask,
                           ),
                         )
                         .toList(),

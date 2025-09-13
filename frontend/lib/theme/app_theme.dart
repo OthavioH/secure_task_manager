@@ -7,7 +7,7 @@ import 'package:simple_rpg_system/theme/app_text_theme.dart';
 class AppTheme {
   AppTheme._();
 
-  static Color get seedColor => Colors.yellow;
+  static Color get seedColor => Colors.deepPurple;
 
   static ThemeData get lightTheme {
     final colorScheme = ColorScheme.fromSeed(
@@ -17,17 +17,18 @@ class AppTheme {
     return ThemeData.light().copyWith(
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colorScheme.surface,
-      appBarTheme: AppBarThemeData(
+      appBarTheme: const AppBarThemeData(
         actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding),
         centerTitle: true,
+        backgroundColor: Colors.transparent,
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: const InputDecorationTheme(
         constraints: BoxConstraints(
           maxWidth: 80,
           minWidth: 50,
         ),
       ),
-      bottomSheetTheme: BottomSheetThemeData(
+      bottomSheetTheme: const BottomSheetThemeData(
         constraints: BoxConstraints(minHeight: 100, maxHeight: 400, maxWidth: 600)
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -49,14 +50,15 @@ class AppTheme {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colorScheme.surface,
       textTheme: AppTextTheme.darkTextTheme,
-      appBarTheme: AppBarThemeData(
+      appBarTheme: const AppBarThemeData(
         actionsPadding: EdgeInsets.symmetric(horizontal: SizeUtils.kHorizontalPadding),
         centerTitle: true,
+        backgroundColor: Colors.transparent,
       ),
-      bottomSheetTheme: BottomSheetThemeData(
+      bottomSheetTheme: const BottomSheetThemeData(
         constraints: BoxConstraints(minHeight: 100, maxHeight: 400, maxWidth: 600)
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: const InputDecorationTheme(
         constraints: BoxConstraints(
           maxWidth: 80,
           minWidth: 50,

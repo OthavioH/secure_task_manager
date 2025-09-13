@@ -45,12 +45,12 @@ class _EditTaskModalState extends ConsumerState<EditTaskModal> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Error'),
+            title: const Text('Error'),
             content: Text(state.message),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           ),

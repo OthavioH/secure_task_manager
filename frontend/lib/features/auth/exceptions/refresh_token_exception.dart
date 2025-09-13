@@ -6,7 +6,7 @@ class RefreshTokenException implements Exception {
   factory RefreshTokenException.fromStatusCode(int? statusCode) {
     return switch (statusCode) {
       401 => InvalidRefreshTokenException(),
-      _ => RefreshTokenException(),
+      _ => const RefreshTokenException(),
     };
   }
 

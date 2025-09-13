@@ -44,7 +44,7 @@ class UserRepositoryImpl extends UserRepository {
       throw CreateAccountException.fromStatusCode(statusCode);
     } catch (error, stackTrace) {
       log("Error creating account", error: error, stackTrace: stackTrace);
-      throw CreateAccountException();
+      throw const CreateAccountException();
     }
   }
 

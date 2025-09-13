@@ -8,7 +8,7 @@ class CreateAccountException implements Exception {
     return switch (statusCode) {
       400 => InvalidValuesException(),
       409 => UserAlreadyExistsException(),
-      _ => CreateAccountException(),
+      _ => const CreateAccountException(),
     };
   }
 

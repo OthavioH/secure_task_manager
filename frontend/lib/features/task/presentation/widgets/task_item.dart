@@ -20,57 +20,67 @@ class TaskItem extends StatelessWidget {
       width: 300,
       child: Card(
         margin: EdgeInsets.zero,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: () async {
-            final updatedTask = await showModalBottomSheet(
-              context: context,
-              builder: (context) => BottomSheet(
-                enableDrag: false,
-                onClosing: () {},
-                builder: (context) => EditTaskModal(task: task),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SelectableText(
+                    task.title,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  Chip(
+                    label: Text(task.status.name),
+                  ),
+                ],
               ),
-            );
-
-            if (updatedTask == null || updatedTask is! TaskModel) return;
-
-            onUpdate(updatedTask);
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const SizedBox(height: 8),
+              SelectableText(
+                task.description,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 8,
                   children: [
-                    Text(
-                      task.title,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                    IconButton(
+                      style: AppIconButtonStyles().negativeActionStyle(context),
+                      onPressed: () {
+                        onDelete(task.id);
+                      },
+                      icon: const Icon(Icons.delete),
                     ),
-                    Chip(
-                      label: Text(task.status.name),
+                    IconButton.outlined(
+                      style: AppIconButtonStyles().primaryActionStyle(Theme.of(context).colorScheme),
+                      onPressed: () async {
+                        final updatedTask = await showModalBottomSheet(
+                          context: context,
+                          builder: (context) => BottomSheet(
+                            enableDrag: false,
+                            onClosing: () {},
+                            builder: (context) => EditTaskModal(task: task),
+                          ),
+                        );
+
+                        if (updatedTask == null || updatedTask is! TaskModel) {
+                          return;
+                        }
+
+                        onUpdate(updatedTask);
+                      },
+                      icon: const Icon(Icons.edit),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  task.description,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 8),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    style: AppIconButtonStyles().negativeActionStyle(context),
-                    onPressed: () {
-                      onDelete(task.id);
-                    },
-                    icon: Icon(Icons.delete),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -7,7 +7,7 @@ class LoginException implements Exception {
     return switch (statusCode) {
       400 => LoginBadRequestException(),
       401 => LoginWrongCredentialsException(),
-      _ => LoginException(),
+      _ => const LoginException(),
     };
   }
 

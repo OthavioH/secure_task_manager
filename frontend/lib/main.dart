@@ -14,7 +14,7 @@ void main() async {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home: Scaffold(
+      home: const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
         ),
@@ -23,8 +23,8 @@ void main() async {
   );
   await EnvironmentConfig.instance.initialize();
   runApp(
-    ProviderScope(
-      child: const MainApp(),
+    const ProviderScope(
+      child: MainApp(),
     ),
   );
 }
@@ -49,7 +49,7 @@ class MainApp extends ConsumerWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
-        home: Scaffold(
+        home: const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
           ),
@@ -61,7 +61,7 @@ class MainApp extends ConsumerWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
-        home: Scaffold(
+        home: const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
           ),

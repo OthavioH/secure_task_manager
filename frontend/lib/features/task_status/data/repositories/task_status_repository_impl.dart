@@ -41,7 +41,7 @@ class TaskStatusRepositoryImpl extends TaskStatusRepository {
         error: error,
         stackTrace: stackTrace,
       );
-      throw GetTaskException();
+      throw const GetTaskException();
     }
   }
 
@@ -74,7 +74,7 @@ class TaskStatusRepositoryImpl extends TaskStatusRepository {
         error: error,
         stackTrace: stackTrace,
       );
-      throw CreateTaskStatusException();
+      throw const CreateTaskStatusException();
     }
   }
 
@@ -101,7 +101,7 @@ class TaskStatusRepositoryImpl extends TaskStatusRepository {
         error: error,
         stackTrace: stackTrace,
       );
-      throw UpdateTaskStatusException();
+      throw const UpdateTaskStatusException();
     }
   }
 
@@ -124,7 +124,7 @@ class TaskStatusRepositoryImpl extends TaskStatusRepository {
         error: error,
         stackTrace: stackTrace,
       );
-      throw DeleteTaskStatusException();
+      throw const DeleteTaskStatusException();
     }
   }
 }

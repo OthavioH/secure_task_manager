@@ -15,12 +15,12 @@ class TaskStatusFilterAll extends StatelessWidget {
     if (isSelected) {
       return FilledButton(
         onPressed: onSelect,
-        child: Text("All"),
+        child: const Text("All"),
       );
     }
     return OutlinedButton(
       onPressed: onSelect,
-      child: Text("All"),
+      child: const Text("All"),
     );
   }
 }

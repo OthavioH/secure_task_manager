@@ -23,4 +23,18 @@ class AppIconButtonStyles {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     );
   }
+
+  ButtonStyle? primaryActionStyle(ColorScheme colorScheme) {
+    return IconButton.styleFrom(
+      foregroundColor: colorScheme.onPrimaryContainer,
+      side: BorderSide(
+        color: colorScheme.onPrimaryContainer,
+        width: 1.5,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    );
+  }
 }

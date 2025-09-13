@@ -16,8 +16,8 @@ final _container = ProviderContainer();
 class AppRouter {
   AppRouter._();
 
-  static final String homeRoute = '/';
-  static final String settingsRoute = '/settings';
+  static const String homeRoute = '/';
+  static const String settingsRoute = '/settings';
 
   static GoRouter get router => GoRouter(
     navigatorKey: navigatorKey,

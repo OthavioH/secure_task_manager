@@ -40,7 +40,7 @@ class AuthRepositoryImpl extends AuthRepository {
         error: e,
         stackTrace: st,
       );
-      throw LoginException();
+      throw const LoginException();
     }
   }
 
@@ -71,7 +71,7 @@ class AuthRepositoryImpl extends AuthRepository {
         error: e,
         stackTrace: st,
       );
-      throw RefreshTokenException();
+      throw const RefreshTokenException();
     }
   }
 }

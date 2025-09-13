@@ -35,7 +35,7 @@ class AuthService {
 
     final tokensJSON = response['tokens'];
     if(tokensJSON == null) {
-      throw RefreshTokenException();
+      throw const RefreshTokenException();
     }
 
     final newTokens = UserTokensModel.fromJson(tokensJSON);

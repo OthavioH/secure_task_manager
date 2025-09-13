@@ -14,16 +14,16 @@ class DeleteTaskController extends AutoDisposeFamilyNotifier<DeleteTaskState, St
   @override
   build(String statusId) {
     this.statusId = statusId;
-    return DeleteTaskInitialState();
+    return const DeleteTaskInitialState();
   }
 
   Future<void> deleteTask() async {
-    state = DeleteTaskLoadingState();
+    state = const DeleteTaskLoadingState();
     try {
       final taskStatusService = ref.watch(taskStatusServiceProvider);
 
       await taskStatusService.deleteStatus(statusId);
-      state = DeleteTaskSuccessState();
+      state = const DeleteTaskSuccessState();
     } catch (e, stackTrace) {
       log('Error deleting task:', error: e, stackTrace: stackTrace);
       state = DeleteTaskErrorState(e.toString());

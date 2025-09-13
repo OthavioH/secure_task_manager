@@ -6,6 +6,7 @@ import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/
 import 'package:simple_rpg_system/features/auth/presentation/views/login_screen/controllers/login_state.dart';
 import 'package:simple_rpg_system/features/user/routes/user_routes.dart';
 import 'package:simple_rpg_system/routes/app_router.dart';
+import 'package:simple_rpg_system/shared/widgets/gradient_background.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -40,14 +41,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Error'),
+        title: const Text('Error'),
         content: Text(error.error),
         actions: [
           TextButton(
             onPressed: () {
               context.pop();
             },
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -73,82 +74,85 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     final isLoading = ref.watch(loginControllerProvider).isLoading;
 
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: SizeUtils.kHorizontalPadding,
-          vertical: SizeUtils.kVerticalPadding,
-        ),
-        child: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.disabled,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 400),
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  TextFormField(
-                    controller: _usernameController,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: const InputDecoration(labelText: 'Username'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your username';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _passwordController,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          hidePassword ? Icons.visibility : Icons.visibility_off,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            hidePassword = !hidePassword;
-                          });
-                        },
-                      ),
+    return GradientBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: SizeUtils.kHorizontalPadding,
+            vertical: SizeUtils.kVerticalPadding,
+          ),
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.disabled,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    TextFormField(
+                      controller: _usernameController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: const InputDecoration(labelText: 'Username'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your username';
+                        }
+                        return null;
+                      },
                     ),
-                    obscureText: hidePassword,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters long';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  FilledButton(
-                    onPressed: isLoading ? null : () => onSubmit(ref),
-                    child: isLoading
-                        ? CircularProgressIndicator(
-                            padding: EdgeInsets.all(8),
-                          )
-                        : const Text('Login'),
-                  ),
-                  const SizedBox(height: 16),
-                  TextButton(
-                    onPressed: () async {
-                      final hasCreatedAccount = await context.push<bool>(UserRoutes.createAccountRoute);
-
-                      if (hasCreatedAccount == true) {
-                        resetForm();
-                      }
-                    },
-                    child: const Text('Don\'t have an account? Sign up'),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: _passwordController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            hidePassword ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              hidePassword = !hidePassword;
+                            });
+                          },
+                        ),
+                      ),
+                      obscureText: hidePassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+      
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters long';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    FilledButton(
+                      onPressed: isLoading ? null : () => onSubmit(ref),
+                      child: isLoading
+                          ? const CircularProgressIndicator(
+                              padding: EdgeInsets.all(8),
+                            )
+                          : const Text('Login'),
+                    ),
+                    const SizedBox(height: 16),
+                    TextButton(
+                      onPressed: () async {
+                        final hasCreatedAccount = await context.push<bool>(UserRoutes.createAccountRoute);
+      
+                        if (hasCreatedAccount == true) {
+                          resetForm();
+                        }
+                      },
+                      child: const Text('Don\'t have an account? Sign up'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
