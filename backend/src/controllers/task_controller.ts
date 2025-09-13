@@ -5,14 +5,20 @@ import { TaskStatus } from "../entities/task_status";
 
 export class TaskController {
 
-    static async readAll(req: FastifyRequest<{ Querystring: { userId: string } }>, reply: FastifyReply) {
-        const { userId } = req.query;
+    static async readAll(req: FastifyRequest<{ Querystring: { userId: string, statusId: string } }>, reply: FastifyReply) {
+        const { userId, statusId } = req.query;
         if (!userId) {
             return reply.status(400).send({ error: "userId is required in query params" });
         }
+        if (statusId && statusId.trim().length === 0) {
+            return reply.status(400).send({ error: "statusId cannot be empty" });
+        }
         const taskRepository = AppDataSource.getRepository(Task);
         const tasks = await taskRepository.find({
-            where: { user: { id: userId } },
+            where: {
+                user: { id: userId },
+                ...(statusId ? { status: { id: statusId } } : {}),
+            },
             relations: ["user", "status"],
         });
         return reply.status(200).send(tasks);
