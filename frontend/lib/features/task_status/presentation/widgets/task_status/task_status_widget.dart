@@ -48,12 +48,9 @@ class TaskStatusWidget extends ConsumerWidget {
       },
     );
 
-    bool isLoading =
+    bool isDeleting =
         ref.watch(deleteTaskControllerProvider(status.id))
             is DeleteTaskLoadingState;
-    if (isLoading) {
-      return const SizedBox.shrink();
-    }
 
     return Container(
       constraints: BoxConstraints(
@@ -112,17 +109,31 @@ class TaskStatusWidget extends ConsumerWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      ref
-                          .read(
-                            deleteTaskControllerProvider(status.id).notifier,
+                    onPressed: isDeleting
+                        ? null
+                        : () {
+                            ref
+                                .read(
+                                  deleteTaskControllerProvider(
+                                    status.id,
+                                  ).notifier,
+                                )
+                                .deleteTask();
+                          },
+                    icon: isDeleting
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.5,
+                            ),
                           )
-                          .deleteTask();
-                    },
-                    icon: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
+                        : Icon(
+                            Icons.delete,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onPrimaryContainer,
+                          ),
                   ),
                 ],
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/widgets/edit_task_status_field/controllers/edit_task_status_controller.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/widgets/edit_task_status_field/controllers/edit_task_status_state.dart';
+import 'package:simple_rpg_system/features/task_status/presentation/widgets/task_status/controllers/task_edit_state_controller.dart';
 
 class EditTaskStatusField extends ConsumerStatefulWidget {
   final String statusId;
@@ -75,6 +76,12 @@ class _EditTaskStatusFieldState extends ConsumerState<EditTaskStatusField> {
         IconButton(
           onPressed: isLoading ? null : () {
             if (_fieldKey.currentState?.validate() ?? false) {
+              if(_controller.text == widget.initialValue) {
+                  ref
+                      .read(taskStatusEditStateProvider(widget.statusId).notifier)
+                      .stopEditing();
+                  return;
+                }
               ref.read(editTaskStatusControllerProvider.notifier).editTaskStatus(
                     id: widget.statusId,
                     name: _controller.text.trim(),

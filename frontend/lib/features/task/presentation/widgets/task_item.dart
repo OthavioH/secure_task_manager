@@ -28,9 +28,11 @@ class TaskItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SelectableText(
-                    task.title,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                  Expanded(
+                    child: SelectableText(
+                      task.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ),
                   Chip(
                     label: Text(task.status.name),
@@ -40,7 +42,7 @@ class TaskItem extends StatelessWidget {
               const SizedBox(height: 8),
               SelectableText(
                 task.description,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.labelLarge,
               ),
               const SizedBox(height: 8),
               Align(

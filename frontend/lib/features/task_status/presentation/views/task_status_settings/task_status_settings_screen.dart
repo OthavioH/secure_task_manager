@@ -30,80 +30,88 @@ class TaskStatusSettingsScreen extends ConsumerWidget {
     return GradientBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: const Text('Settings'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              context.pop();
-            },
-          ),
-          actions: [
-            if (kDebugMode)
-              Switch(
-                value: ref.watch(themeProvider) == ThemeMode.dark,
-                onChanged: (bool isDarkMode) {
-                  ref
-                      .read(themeProvider.notifier)
-                      .setTheme(
-                        isDarkMode ? ThemeMode.dark : ThemeMode.light,
-                      );
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: const Text('Settings'),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  context.pop();
                 },
               ),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.error,
-                side: BorderSide(
-                  color: Theme.of(context).colorScheme.error,
+              actions: [
+                if (kDebugMode)
+                  Switch(
+                    value: ref.watch(themeProvider) == ThemeMode.dark,
+                    onChanged: (bool isDarkMode) {
+                      ref
+                          .read(themeProvider.notifier)
+                          .setTheme(
+                            isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                          );
+                    },
+                  ),
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Theme.of(context).colorScheme.error,
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                  label: const Text('Logout'),
+                  icon: const Icon(Icons.logout),
+                  onPressed: () {
+                    ref.read(signOutControllerProvider.notifier).signOut();
+                  },
                 ),
+              ],
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: SizeUtils.kHorizontalPadding,
+                vertical: SizeUtils.kVerticalPadding,
               ),
-              label: const Text('Logout'),
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                ref.read(signOutControllerProvider.notifier).signOut();
-              },
+              sliver: SliverList.list(
+                children: [
+                  Text(
+                    'Task Statuses',
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  const SizedBox(height: 16),
+                  const CreateTaskStatusView(),
+                  const SizedBox(height: 24),
+                  asyncStatuses.when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (error, _) => Center(child: Text('Erro: $error')),
+                    data: (statuses) {
+                      if (statuses.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            'No statuses found. Please add a status.',
+                          ),
+                        );
+                      }
+                      return Wrap(
+                        spacing: 8.0,
+                        runSpacing: 8,
+                        children: statuses
+                            .map(
+                              (status) => TaskStatusWidget(
+                                status: status,
+                                onDelete: controller.deleteStatus,
+                                onUpdate: controller.updateStatus,
+                              ),
+                            )
+                            .toList(),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: SizeUtils.kHorizontalPadding,
-            vertical: SizeUtils.kVerticalPadding,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Task Statuses',
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              const SizedBox(height: 16),
-              const CreateTaskStatusView(),
-              const SizedBox(height: 24),
-              asyncStatuses.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, _) => Center(child: Text('Erro: $error')),
-                data: (statuses) {
-                  if (statuses.isEmpty) {
-                    return const Center(
-                      child: Text('No statuses found. Please add a status.'),
-                    );
-                  }
-                  return Wrap(
-                    spacing: 8.0,
-                    runSpacing: 8,
-                    children: statuses.map((status) {
-                      return TaskStatusWidget(
-                        status: status,
-                        onUpdate: controller.updateStatus,
-                        onDelete: controller.deleteStatus,
-                      );
-                    }).toList(),
-                  );
-                },
-              ),
-            ],
-          ),
         ),
       ),
     );

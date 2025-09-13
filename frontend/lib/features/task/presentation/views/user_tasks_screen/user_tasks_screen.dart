@@ -53,18 +53,6 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
     return GradientBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () async {
-                await context.push('/settings');
-                ref.invalidate(userTasksControllerProvider);
-              },
-            ),
-          ],
-        ),
         floatingActionButton: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -98,102 +86,124 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: SizeUtils.kHorizontalPadding,
-            vertical: SizeUtils.kVerticalPadding,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Your Tasks',
-                style: Theme.of(context).textTheme.displayMedium,
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: Colors.transparent,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () async {
+                    await context.push('/settings');
+                    ref.invalidate(userTasksControllerProvider);
+                  },
+                ),
+              ],
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: SizeUtils.kHorizontalPadding,
+                vertical: SizeUtils.kVerticalPadding,
               ),
-              const SizedBox(height: 8),
-
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runSpacing: 16,
+              sliver: SliverList.list(
                 children: [
                   Text(
-                    'Filter by status:',
-                    style: Theme.of(context).textTheme.titleSmall,
+                    'Your Tasks',
+                    style: Theme.of(context).textTheme.displayMedium,
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(height: 8),
+              
                   Wrap(
-                    runSpacing: 8,
-                    spacing: 8,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    runSpacing: 16,
                     children: [
-                      TaskStatusFilterAll(
-                        isSelected:
-                            ref
-                                .watch(tasksStatusControllerProvider)
-                                .selectedStatus ==
-                            null,
-                        onSelect: ref
-                            .read(tasksStatusControllerProvider.notifier)
-                            .selectAllStatuses,
+                      Text(
+                        'Filter by status:',
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
-                      ...ref
-                          .watch(tasksStatusControllerProvider)
-                          .statuses
-                          .map(
-                            (status) => TaskStatusFilterItem(
-                              status: status,
-                              isSelected:
-                                  ref
-                                      .watch(tasksStatusControllerProvider)
-                                      .selectedStatus ==
-                                  status,
-                              onTap: ref
-                                  .read(tasksStatusControllerProvider.notifier)
-                                  .toggleStatus,
-                            ),
+                      const SizedBox(width: 16),
+                      Wrap(
+                        runSpacing: 8,
+                        spacing: 8,
+                        children: [
+                          TaskStatusFilterAll(
+                            isSelected:
+                                ref
+                                    .watch(tasksStatusControllerProvider)
+                                    .selectedStatus ==
+                                null,
+                            onSelect: ref
+                                .read(tasksStatusControllerProvider.notifier)
+                                .selectAllStatuses,
                           ),
+                          ...ref
+                              .watch(tasksStatusControllerProvider)
+                              .statuses
+                              .map(
+                                (status) => TaskStatusFilterItem(
+                                  status: status,
+                                  isSelected:
+                                      ref
+                                          .watch(tasksStatusControllerProvider)
+                                          .selectedStatus ==
+                                      status,
+                                  onTap: ref
+                                      .read(
+                                        tasksStatusControllerProvider.notifier,
+                                      )
+                                      .toggleStatus,
+                                ),
+                              ),
+                        ],
+                      ),
                     ],
+                  ),
+                  const SizedBox(height: 16),
+                  userTaskState.when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (error, stackTrace) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    data: (data) {
+                      if (data.isEmpty) {
+                        return const Center(
+                          child: Text('There are no tasks yet'),
+                        );
+                      }
+                      return Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: data
+                            .map(
+                              (task) => TaskItem(
+                                task: task,
+                                onDelete: ref
+                                    .read(
+                                      userTasksControllerProvider(
+                                        filter,
+                                      ).notifier,
+                                    )
+                                    .deleteTask,
+                                onUpdate: ref
+                                    .read(
+                                      userTasksControllerProvider(
+                                        filter,
+                                      ).notifier,
+                                    )
+                                    .updateTask,
+                              ),
+                            )
+                            .toList(),
+                      );
+                    },
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              userTaskState.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stackTrace) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-                data: (data) {
-                  if (data.isEmpty) {
-                    return const Center(
-                      child: Text('There are no tasks yet'),
-                    );
-                  }
-                  return Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: data
-                        .map(
-                          (task) => TaskItem(
-                            task: task,
-                            onDelete: ref
-                                .read(
-                                  userTasksControllerProvider(filter).notifier,
-                                )
-                                .deleteTask,
-                            onUpdate: ref
-                                .read(
-                                  userTasksControllerProvider(filter).notifier,
-                                )
-                                .updateTask,
-                          ),
-                        )
-                        .toList(),
-                  );
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
