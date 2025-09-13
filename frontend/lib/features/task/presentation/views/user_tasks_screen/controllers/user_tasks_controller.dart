@@ -53,4 +53,14 @@ class GetTasksFilter {
 
   GetTasksFilter({this.statusId});
   
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is GetTasksFilter && other.statusId == statusId;
+  }
+
+  @override
+  int get hashCode => statusId.hashCode;
 }

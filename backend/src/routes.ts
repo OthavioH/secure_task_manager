@@ -7,6 +7,9 @@ import AuthMiddleware from "./middlewares/auth_middleware";
 
 export default async function routes(fastify: FastifyInstance) {
   
+  fastify.head("/ping", (req: FastifyRequest, reply: FastifyReply) => {
+    return reply.send("Pong");
+  });
   fastify.get("/ping", (req: FastifyRequest, reply: FastifyReply) => {
     return reply.send("Pong");
   });
