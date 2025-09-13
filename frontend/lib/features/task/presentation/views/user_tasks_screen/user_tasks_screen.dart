@@ -23,8 +23,11 @@ class UserTasksScreen extends ConsumerStatefulWidget {
 class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
   @override
   Widget build(BuildContext context) {
+    final filter = GetTasksFilter(
+      statusId: ref.watch(tasksStatusControllerProvider).selectedStatus?.id,
+    );
     ref.listen(
-      userTasksControllerProvider,
+      userTasksControllerProvider(filter),
       (previous, next) {
         if (next.hasError) {
           final error = next.error;
@@ -46,7 +49,7 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
       },
     );
 
-    final userTaskState = ref.watch(userTasksControllerProvider);
+    final userTaskState = ref.watch(userTasksControllerProvider(filter));
     return GradientBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -68,7 +71,7 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
             FloatingActionButton.small(
               heroTag: 'refresh',
               onPressed: () async {
-                final _ = ref.refresh(userTasksControllerProvider);
+                final _ = ref.refresh(userTasksControllerProvider(filter));
               },
               child: const Icon(Icons.refresh),
             ),
@@ -88,7 +91,7 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
                 if (createdTask == null || createdTask is! TaskModel) return;
 
                 ref
-                    .read(userTasksControllerProvider.notifier)
+                    .read(userTasksControllerProvider(filter).notifier)
                     .addTask(createdTask);
               },
               child: const Icon(Icons.add),
@@ -174,10 +177,14 @@ class _UserTasksScreenState extends ConsumerState<UserTasksScreen> {
                           (task) => TaskItem(
                             task: task,
                             onDelete: ref
-                                .read(userTasksControllerProvider.notifier)
+                                .read(
+                                  userTasksControllerProvider(filter).notifier,
+                                )
                                 .deleteTask,
                             onUpdate: ref
-                                .read(userTasksControllerProvider.notifier)
+                                .read(
+                                  userTasksControllerProvider(filter).notifier,
+                                )
                                 .updateTask,
                           ),
                         )
