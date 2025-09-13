@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'package:simple_rpg_system/features/task_status/presentation/views/task_s
 import 'package:simple_rpg_system/features/task_status/presentation/views/task_status_settings/controllers/sign_out_state.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/views/task_status_settings/controllers/task_status_settings_controller.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/widgets/task_status/task_status_widget.dart';
+import 'package:simple_rpg_system/shared/providers/theme_controller.dart';
 import 'package:simple_rpg_system/shared/widgets/gradient_background.dart';
 
 class TaskStatusSettingsScreen extends ConsumerWidget {
@@ -18,8 +20,8 @@ class TaskStatusSettingsScreen extends ConsumerWidget {
     final asyncStatuses = ref.watch(taskStatusSettingsControllerProvider);
     final controller = ref.watch(taskStatusSettingsControllerProvider.notifier);
 
-    ref.listen(signOutControllerProvider, (previous, next) {
-      if (next is SignOutSuccess) {
+    ref.listen<SignOutState>(signOutControllerProvider, (previous, next) {
+      if (next is SignOutSuccess && previous is! SignOutSuccess) {
         context.pop();
         context.go(AuthRoutes.loginRoute);
       }
@@ -37,6 +39,17 @@ class TaskStatusSettingsScreen extends ConsumerWidget {
             },
           ),
           actions: [
+            if (kDebugMode)
+              Switch(
+                value: ref.watch(themeProvider) == ThemeMode.dark,
+                onChanged: (bool isDarkMode) {
+                  ref
+                      .read(themeProvider.notifier)
+                      .setTheme(
+                        isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                      );
+                },
+              ),
             OutlinedButton.icon(
               style: OutlinedButton.styleFrom(
                 foregroundColor: Theme.of(context).colorScheme.error,

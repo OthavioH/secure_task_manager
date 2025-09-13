@@ -12,7 +12,7 @@ class AppInputDecorations {
   InputDecoration filledTheme(ColorScheme colorScheme) {
     return InputDecoration(
       filled: true,
-      fillColor: colorScheme.surfaceContainer,
+      fillColor: colorScheme.surfaceContainerLowest,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
