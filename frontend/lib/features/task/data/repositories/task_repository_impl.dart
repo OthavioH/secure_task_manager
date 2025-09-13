@@ -16,12 +16,16 @@ class TaskRepositoryImpl extends TaskRepository {
   }) : _httpClient = httpClient;
 
   @override
-  Future<List<TaskModel>> getUserTasks(String userId) async {
+  Future<List<TaskModel>> getUserTasks({
+    required String userId,
+    String? statusId,
+  }) async {
     try {
       final response = await _httpClient.get(
         '/tasks',
         queryParameters: {
           "userId": userId,
+          if (statusId != null) "statusId": statusId,
         },
       );
 

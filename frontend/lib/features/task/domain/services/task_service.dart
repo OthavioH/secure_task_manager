@@ -14,11 +14,16 @@ class TaskService {
     this._userRepository,
   );
 
-  Future<List<TaskModel>> getTasksForCurrentUser() async {
+  Future<List<TaskModel>> getTasksForCurrentUser({
+    String? statusId,
+  }) async {
     try {
       final user = await _userRepository.getLoggedUser();
       if (user != null) {
-        return await _taskRepository.getUserTasks(user.id);
+        return await _taskRepository.getUserTasks(
+          userId: user.id,
+          statusId: statusId,
+        );
       }
       return [];
     } catch (error, stackTrace) {
