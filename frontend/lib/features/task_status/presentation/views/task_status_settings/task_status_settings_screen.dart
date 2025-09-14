@@ -79,7 +79,9 @@ class TaskStatusSettingsScreen extends ConsumerWidget {
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                   const SizedBox(height: 16),
-                  const CreateTaskStatusView(),
+                  CreateTaskStatusView(
+                    onStatusCreated: ref.read(taskStatusSettingsControllerProvider.notifier).addStatus,
+                  ),
                   const SizedBox(height: 24),
                   asyncStatuses.when(
                     loading: () =>

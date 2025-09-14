@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:simple_rpg_system/features/task_status/domain/models/task_status.dart';
 import 'package:simple_rpg_system/features/task_status/presentation/widgets/create_task_status/controllers/create_task_status_controller.dart';
-import 'package:simple_rpg_system/features/task_status/presentation/views/task_status_settings/controllers/task_status_settings_controller.dart';
 import 'package:simple_rpg_system/theme/app_input_decorations.dart';
 
 class CreateTaskStatusView extends ConsumerStatefulWidget {
-  const CreateTaskStatusView({super.key});
+  final void Function(TaskStatus status) onStatusCreated;
+  const CreateTaskStatusView({super.key, required this.onStatusCreated});
 
   @override
   ConsumerState<CreateTaskStatusView> createState() =>
@@ -20,7 +21,7 @@ class _CreateTaskStatusViewState extends ConsumerState<CreateTaskStatusView> {
   Widget build(BuildContext context) {
     ref.listen(createTaskStatusControllerProvider, (_, state) {
       if (state is CreateTaskStatusSuccess) {
-        ref.read(taskStatusSettingsControllerProvider.notifier).addStatus(state.status);
+        widget.onStatusCreated(state.status);
         return;
       }
       if (state is CreateTaskStatusError) {
