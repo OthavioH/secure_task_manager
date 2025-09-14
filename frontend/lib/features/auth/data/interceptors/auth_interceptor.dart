@@ -73,6 +73,9 @@ class AuthInterceptor extends Interceptor {
         _authTokensRepository.deleteToken();
         navigatorKey.currentContext?.go(AuthRoutes.loginRoute);
         return handler.reject(err);
+      } catch (error, stackTrace) {
+        log("Unexpected error", error: error, stackTrace: stackTrace);
+        return handler.reject(err);
       }
     }
 
