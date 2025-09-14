@@ -4,12 +4,12 @@
   "type": "commonjs",
   "scripts": {
     "start": "node dist/server.js",
-    "start:prod": "npm run typeorm:migrate && npm run start",
+    "start:prod": "npm run build && npm run typeorm:generate && npm run start",
     "dev": "nodemon --watch src --ext ts,json --exec ts-node src/server.ts",
     "dev:mysql": "docker-compose -f ./docker-compose.db.mysql.yml up -d",
     "dev:postgres": "docker-compose -f ./docker-compose.db.postgres.yml up -d",
     "build": "tsc",
-    "typeorm": "npm run build && npx typeorm-ts-node-commonjs --dataSource src/config/db_data_source.ts",
+    "typeorm": "npx typeorm-ts-node-commonjs --dataSource src/config/db_data_source.ts",
     "typeorm:migrate": "npm run typeorm migration:run",
     "typeorm:generate": "npm run typeorm migration:generate src/migrations/migration --timestamp",
     "typeorm:revert": "npm run typeorm migration:revert"
