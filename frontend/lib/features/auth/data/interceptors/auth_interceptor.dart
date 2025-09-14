@@ -57,6 +57,8 @@ class AuthInterceptor extends Interceptor {
 
         final newTokensModel = UserTokensModel.fromJson(newTokensJSON);
 
+        await _authTokensRepository.saveToken(newTokensModel);
+
         final options = err.requestOptions;
         options.headers['Authorization'] =
             'Bearer ${newTokensModel.accessToken}';
