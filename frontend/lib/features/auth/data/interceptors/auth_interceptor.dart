@@ -64,17 +64,17 @@ class AuthInterceptor extends Interceptor {
         final response = await _dio.fetch(options);
         return handler.resolve(response);
       } on DioException catch (e) {
-        log("Error retrying request", error: e, stackTrace: e.stackTrace);
-        _authTokensRepository.deleteToken();
-        navigatorKey.currentContext?.go(AuthRoutes.loginRoute);
+        if(e.response?.statusCode == 401) {
+          log("Refresh token expired", error: e, stackTrace: e.stackTrace);
+          _authTokensRepository.deleteToken();
+          navigatorKey.currentContext?.go(AuthRoutes.loginRoute);
+          return handler.reject(err);
+        }
         return handler.reject(e);
       } on RefreshTokenException catch (error, stackTrace) {
         log("Refresh token expired", error: error, stackTrace: stackTrace);
         _authTokensRepository.deleteToken();
         navigatorKey.currentContext?.go(AuthRoutes.loginRoute);
-        return handler.reject(err);
-      } catch (error, stackTrace) {
-        log("Unexpected error", error: error, stackTrace: stackTrace);
         return handler.reject(err);
       }
     }
