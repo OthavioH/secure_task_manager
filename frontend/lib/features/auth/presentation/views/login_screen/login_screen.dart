@@ -35,6 +35,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   void resetForm() {
     _formKey.currentState?.reset();
+    _usernameController.clear();
+    _passwordController.clear();
   }
 
   void onError(LoginFailure error) {
