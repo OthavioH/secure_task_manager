@@ -22,6 +22,7 @@ class _CreateTaskStatusViewState extends ConsumerState<CreateTaskStatusView> {
     ref.listen(createTaskStatusControllerProvider, (_, state) {
       if (state is CreateTaskStatusSuccess) {
         widget.onStatusCreated(state.status);
+        _nameController.clear();
         return;
       }
       if (state is CreateTaskStatusError) {
