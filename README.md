@@ -113,77 +113,87 @@ Requisitos:
 
 ## Fluxos
 ### Login
-<img width="597" height="459" alt="Image" src="https://github.com/user-attachments/assets/bfbb64cf-2f2c-4dd3-9b7e-b5daa4711185" />
+<img width="1903" height="1078" alt="Image" src="https://github.com/user-attachments/assets/5bc87174-2115-48e8-afc8-5a9e479ff4a8" />
 
 #### Fluxo: Credenciais incorretas
 Quando as credenciais do usuário estão incorretas, seja a senha ou o username, o sistema mostra a mensagem "Your username or password is incorrect".
-<img width="714" height="519" alt="Image" src="https://github.com/user-attachments/assets/07d9da51-6df9-4725-b46c-0ec4d4b0e7d2" />
+<img width="1330" height="811" alt="Image" src="https://github.com/user-attachments/assets/cf2963cd-2785-42d6-9d40-85a8f9177565" />
 
 ### Criação de conta
-<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/c6d7b46b-4354-4b35-8e58-af352d54432f" />
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/e62bb0fa-3108-492a-ad45-146fdefe028e" />
 
 #### Fluxo: Conta criada com sucesso
 Quando há a criação de conta com sucesso, o sistema mostra uma mensagem e redireciona o usuário para a tela de Login.
-<img width="1917" height="1079" alt="Image" src="https://github.com/user-attachments/assets/a567ab18-1a18-4d2c-9314-c31403cd4be2" />
+<img width="1510" height="994" alt="Image" src="https://github.com/user-attachments/assets/010c4b20-6c94-48cb-862a-aeb79a3e8d0d" />
 
 #### Fluxo: Conta já existente
 Quando há uma conta com o mesmo username, o sistema mostra a mensagem "User already exists".
-<img width="1919" height="1076" alt="Image" src="https://github.com/user-attachments/assets/d603feea-dcc5-4370-9ba1-2159f85687fa" />
+<img width="746" height="523" alt="Image" src="https://github.com/user-attachments/assets/716b6583-1436-48d6-ab78-0d0cb65860b5" />
 
 ### Lista de tarefas
 
 #### Fluxo: Usuário não tem tarefas criadas
 Quando o usuário ainda não tem tarefas criadas, o sistema mostra a mensagem "There are no tasks yet"
-<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/ca974c21-ae5b-4008-a9dd-15c6be9a9d32" />
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/53957576-2210-4c2d-b847-c8f20e2219e2" />
+
+#### Fluxo: Usuário tem tarefas criadas
+
 
 ### Criação de tarefas
 
 #### Quando não há status criados ainda
 Para criar uma tarefa, o usuário deve ter criado ao menos um status.
 
-<img width="1919" height="925" alt="Image" src="https://github.com/user-attachments/assets/2c672915-4ffd-47d1-b683-905729e8308e" />
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/32f07400-5f14-4361-a4b8-bf5ec216343c" />
 
 #### Quando há status criados
 
-<img width="1884" height="694" alt="Image" src="https://github.com/user-attachments/assets/aeac32ee-9818-4ddd-8c71-6aeb22363acd" />
-<img width="1919" height="510" alt="Image" src="https://github.com/user-attachments/assets/645b35a5-2875-4761-a361-d5fbf1a2ad86" />
+<img width="1644" height="735" alt="Image" src="https://github.com/user-attachments/assets/e47ed030-c14a-4453-8318-6a62ac6d48d2" />
+<img width="1917" height="1079" alt="Image" src="https://github.com/user-attachments/assets/9f0d80a8-5552-40ef-a3f0-a982130c1eec" />
 
 ### Edição de tarefas
 
-<img width="1907" height="424" alt="Image" src="https://github.com/user-attachments/assets/1192f93e-95a7-4631-a72d-9ccb4cffc3c8" />
-<img width="1860" height="1011" alt="Image" src="https://github.com/user-attachments/assets/7a33fa0a-b986-4887-80a1-42a4b616a88c" />
-<img width="1919" height="321" alt="Image" src="https://github.com/user-attachments/assets/be8ff235-fbd3-4454-b559-36b2a733541c" />
+<img width="1382" height="614" alt="Image" src="https://github.com/user-attachments/assets/0a75c60d-dcab-4cd0-95ff-5c8e71e1e28f" />
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/aa8d27b8-82e6-4bc4-8790-d9be0300932c" />
+
+### Deletar tarefas
+<img width="834" height="618" alt="Image" src="https://github.com/user-attachments/assets/c87f7900-14fd-4f8a-87c6-995a7552c5cc" />
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/e3e3450d-d738-4372-bfdc-97197b426360" />
 
 ### Listagem de status de tarefas
 
 #### Fluxo: Não há status de tarefas
-<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/edcf45c9-feef-4da1-a717-83b70dadef15" />
+<img width="1902" height="1079" alt="Image" src="https://github.com/user-attachments/assets/7f4f8485-4a03-44dd-b218-782ab2b1d800" />
 
 #### Fluxo: Há um ou mais status de tarefas
-<img width="1919" height="593" alt="Image" src="https://github.com/user-attachments/assets/fd0fa866-4d9b-4355-9934-e352bd8aa7aa" />
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/3106480e-c23d-4ff7-bd31-5b3e88085e88" />
 
 ### Criação de status
 
-<img width="1901" height="931" alt="Image" src="https://github.com/user-attachments/assets/3fa6291b-5f37-4368-b1b5-d60c65278a8b" />
+#### Quando há um status criado com o mesmo nome para aquele usuário
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/3ccc8905-1de0-4f37-84b9-61de02f879f9" />
+
+#### Quando a criação de status é bem sucedida
+<img width="1045" height="415" alt="Image" src="https://github.com/user-attachments/assets/f7f23cc8-97ad-4910-bb44-47f59ce9bd8f" />
 
 ### Deletar status
 
 #### Fluxo: Quando há tarefas utilizando aquele status
 
-<img width="1919" height="765" alt="Image" src="https://github.com/user-attachments/assets/4c05597d-184d-45fc-9fc9-79ed188d19e4" />
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/023eae1c-1e71-405a-bdb7-2f40442e9f52" />
 
 #### Fluxo: Quando não há tarefas utilizando o status
 
-<img width="852" height="578" alt="Image" src="https://github.com/user-attachments/assets/d1bcda60-4a8f-4bc2-88da-0e89fbfddaf4" />
-<img width="1917" height="291" alt="Image" src="https://github.com/user-attachments/assets/9a3771bf-ea0f-4e6d-8eec-e2c1fa52ce66" />
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/af859107-d6d4-4253-9167-428e5fb1edbb" />
 
 ### Edição de status
 Quando um status é editado, caso haja tarefas que utilizem o status, a mudança é refletida também na tarefa, mudando o nome do status na visualização.
 
-No exemplo abaixo, o status se chamava "doing" e foi mudado para "do" e a edição foi refletida também na tarefa que estava associada ao status.
+No exemplo abaixo, o status se chamava "pending" e foi mudado para "to-do" e a edição foi refletida também na tarefa que estava associada ao status.
 
-<img width="1918" height="415" alt="Image" src="https://github.com/user-attachments/assets/d184f9c1-2981-401f-8bae-0c340ea57b15" />
-<img width="1919" height="233" alt="Image" src="https://github.com/user-attachments/assets/e35124e1-dcac-44d5-a0a4-1dcd56fe7084" />
+<img width="530" height="447" alt="Image" src="https://github.com/user-attachments/assets/8dd0da05-e74a-42e0-bced-e0a03b6c293f" />
+<img width="743" height="492" alt="Image" src="https://github.com/user-attachments/assets/3b19c580-bef7-45b5-8019-a5a165fb540a" />
+<img width="579" height="561" alt="Image" src="https://github.com/user-attachments/assets/e9ebab27-09de-4161-b5f1-dd7a9e89788c" />
 
 ## Lista de endpoints
 
@@ -284,7 +294,7 @@ No exemplo abaixo, o status se chamava "doing" e foi mudado para "do" e a ediç�
   - **400**: Dados inválidos.
 
 #### **GET** `/tasks`
-- **Descrição**: Retorna todas as tarefas do usuário autenticado.
+- **Descrição**: Retorna todas as tarefas do usuário autenticado e aceita um parâmetro de statusId para filtrar tarefas por aquele status.
 - **Parâmetros**:
   - **Headers**:
     ```json
@@ -292,6 +302,8 @@ No exemplo abaixo, o status se chamava "doing" e foi mudado para "do" e a ediç�
       "Authorization": "Bearer <token>"
     }
     ```
+  - **Query Params**:
+    - `statusId` (opcional): ID do status para filtrar as tarefas.
 - **Retornos**:
   - **200**: Lista de tarefas.
     ```json
