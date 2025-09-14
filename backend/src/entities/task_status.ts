@@ -1,13 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, Unique } from "typeorm";
 import { Task } from "./task";
 import { User } from "./user";
 
 @Entity("task_statuses")
+@Unique(["name", "user"])
 export class TaskStatus {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
-    @Column({ unique: true })
+    @Column()
     name!: string;
 
     @OneToMany(() => Task, task => task.status)
