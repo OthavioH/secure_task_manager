@@ -145,7 +145,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/tasks?userId=\"teste\"",
+					"raw": "{{baseUrl}}/tasks?userId=05e867a6-f4d0-4d22-8a8d-5dc64f2d562e",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -155,7 +155,12 @@
 					"query": [
 						{
 							"key": "userId",
-							"value": "\"teste\""
+							"value": "05e867a6-f4d0-4d22-8a8d-5dc64f2d562e"
+						},
+						{
+							"key": "statusId",
+							"value": "05e867a6-f4d0-4d22-8a8d-5dc64f2d562e",
+							"disabled": true
 						}
 					]
 				}
