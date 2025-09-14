@@ -4,7 +4,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node dist/server.js",
-    "start:prod": "npm run build && npm run typeorm:generate && npm run start",
+    "start:prod": "npm run build && npm run typeorm:migrate && npm run start",
     "dev": "nodemon --watch src --ext ts,json --exec ts-node src/server.ts",
     "dev:mysql": "docker-compose -f ./docker-compose.db.mysql.yml up -d",
     "dev:postgres": "docker-compose -f ./docker-compose.db.postgres.yml up -d",
