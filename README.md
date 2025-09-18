@@ -31,8 +31,8 @@ O projeto implementa boas práticas de segurança com autenticação utilizando 
 │   └── workflows/
 │       └── build_web.yml      # Pipeline de CI/CD para a build da versão web
 ├── backend/
-│   ├── migrations/            # Migrations do banco de dados (TypeORM)
 │   ├── src/
+│   │   ├── migrations/            # Migrations do banco de dados (TypeORM)
 │   │   ├── config/            # Configurações de ambiente e banco de dados
 │   │   ├── controllers/       # Controladores que lidam com as requisições HTTP
 │   │   ├── entities/          # Modelos de dados (tabelas do banco)
